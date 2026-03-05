@@ -42,7 +42,7 @@ const Footer = () => {
                         </Link>
                         <div className="space-y-4">
                             <p className="text-slate-500 leading-relaxed font-medium text-sm max-w-sm">
-                                Elevating the athletic experience through adaptive training and high-performance methodology. Join us at our premier Schaumburg facility.
+                                Elevating the athletic experience through adaptive training and high-performance methodology. Join us at our premier Stockton facility.
                             </p>
                             <span className="inline-block px-4 py-1.5 bg-green-50 text-green-700 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-green-100">
                                 Mon-Fri 9AM - 6PM
@@ -93,15 +93,14 @@ const Footer = () => {
                                     <MapPin size={18} />
                                 </div>
                                 <span className="text-sm font-bold text-slate-700 leading-tight">
-                                    1154 S Roselle Rd, <br />
-                                    Schaumburg, IL 60193
+                                    Stockton, CA 95209
                                 </span>
                             </li>
                             <li className="flex gap-4 items-center">
                                 <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-600 shrink-0">
                                     <Phone size={18} />
                                 </div>
-                                <span className="text-sm font-bold text-slate-700">209-237-6877</span>
+                                <span className="text-sm font-bold text-slate-700">+1 (209) 712-2421</span>
                             </li>
                             <li className="flex gap-4 items-center">
                                 <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-600 shrink-0">

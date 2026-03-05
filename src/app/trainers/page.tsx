@@ -160,7 +160,7 @@ const TrainersPage = () => {
                     >
                         <span className="text-green-500 font-black uppercase tracking-[0.5em] mb-4 block text-sm drop-shadow-lg">Industry Professionals</span>
                         <h1 className="text-4xl sm:text-6xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] drop-shadow-2xl">
-                            <span className="text-white [-webkit-text-stroke:2px_#195224] md:[-webkit-text-stroke:4px_#195224]">ELITE</span> <span className="text-green-500">TEAM.</span>
+                            <span className="text-white [-webkit-text-stroke:2px_#195224] md:[-webkit-text-stroke:4px_#195224]">OUR</span> <span className="text-green-500">TEAM.</span>
                         </h1>
                     </motion.div>
                 </div>

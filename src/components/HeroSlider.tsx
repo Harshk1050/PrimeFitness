@@ -61,28 +61,30 @@ const HeroSlider = () => {
                 ))}
             </div>
 
-            {/* Subtle Overlay */}
+            {/* Premium Overlay System: Protects text readability while keeping the image vibrant */}
             <div className="absolute inset-0 bg-black/40 pointer-events-none z-[1]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent pointer-events-none z-[1]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none z-[1]" />
 
-            {/* Hero Content */}
-            <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6 pb-24">
+            {/* Hero Content - Sophisticated bottom-left placement */}
+            <div className="relative z-10 flex flex-col items-start justify-end h-full text-left px-6 md:px-16 pb-16 md:pb-24">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentSlide}
-                        initial={{ y: 50, opacity: 0 }}
+                        initial={{ y: 30, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: -50, opacity: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="space-y-6"
+                        exit={{ y: -20, opacity: 0 }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="space-y-4 md:space-y-6 max-w-3xl"
                     >
-                        <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 tracking-tight leading-tight uppercase font-heading drop-shadow-lg">
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-[1] uppercase font-heading drop-shadow-xl">
                             {images[currentSlide].title}
                         </h1>
-                        <p className="text-base sm:text-lg md:text-2xl text-gray-300 font-light max-w-2xl mx-auto tracking-wide">
+                        <p className="text-base md:text-xl text-gray-200 font-medium max-w-xl tracking-wide leading-relaxed drop-shadow-md">
                             {images[currentSlide].subtitle}
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 relative z-50">
-                            <Link href="/contact" className="px-8 py-3 bg-green-600 hover:bg-green-700 rounded-md font-bold text-white text-lg transition-colors pointer-events-auto cursor-pointer">
+                        <div className="flex flex-col sm:flex-row gap-4 justify-start pt-4 relative z-50">
+                            <Link href="/contact" className="px-10 py-4 bg-green-500 hover:bg-white hover:text-slate-900 rounded-full font-black text-slate-900 text-lg transition-all hover:scale-105 shadow-2xl pointer-events-auto cursor-pointer uppercase tracking-widest">
                                 Get Started
                             </Link>
                         </div>

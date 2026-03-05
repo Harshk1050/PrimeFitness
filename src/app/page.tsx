@@ -311,7 +311,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-white font-bold uppercase tracking-wider mb-2">Location</h4>
-                    <p className="text-slate-300 font-medium leading-snug">1154 South Roselle Road,<br />Schaumburg, IL 60193</p>
+                    <p className="text-slate-300 font-medium leading-snug">Stockton, CA 95209</p>
                   </div>
                 </div>
 
@@ -321,7 +321,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-white font-bold uppercase tracking-wider mb-2">Phone</h4>
-                    <p className="text-slate-300 font-medium">630-237-6877</p>
+                    <p className="text-slate-300 font-medium">+1 (209) 712-2421</p>
                   </div>
                 </div>
 

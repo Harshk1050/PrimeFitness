@@ -99,8 +99,8 @@ const ContactPage = () => {
                                     <div className="space-y-1">
                                         <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">Headquarters</h4>
                                         <p className="text-lg font-bold text-slate-900 leading-tight">
-                                            1154 S Roselle Rd, <br />
-                                            Schaumburg, IL 60193, USA
+                                            Stockton, CA 95209, <br />
+                                            USA
                                         </p>
                                     </div>
                                 </motion.div>
@@ -117,7 +117,7 @@ const ContactPage = () => {
                                     </div>
                                     <div className="space-y-1">
                                         <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">Call Us</h4>
-                                        <p className="text-lg font-bold text-slate-900">630-237-6877</p>
+                                        <p className="text-lg font-bold text-slate-900">+1 (209) 712-2421</p>
                                     </div>
                                 </motion.div>
 
@@ -279,7 +279,7 @@ const ContactPage = () => {
             <div className="container mx-auto px-6 pb-24">
                 <div className="relative h-[400px] md:h-[600px] rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 group">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2963.5137812548843!2d-88.0772744!3d42.0101416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880faed8b0000001%3A0x1d3c0b0a0a0a0a0a!2s1154%20S%20Roselle%20Rd%2C%20Schaumburg%2C%20IL%2060193!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d100612.30230616149!2d-121.36987413493196!3d38.00511559999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80900966a0149721%3A0xc6c4c688d3e913a0!2sStockton%2C%20CA%2095209%2C%20USA!5e0!3m2!1sen!2sus!4v1709620000000!5m2!1sen!2sus"
                         width="100%"
                         height="100%"
                         style={{ border: 0 }}
@@ -289,7 +289,7 @@ const ContactPage = () => {
                     ></iframe>
                     <div className="absolute top-10 right-10 bg-white p-6 rounded-3xl shadow-xl max-w-xs pointer-events-none border border-slate-100 hidden md:block">
                         <span className="text-green-600 font-black uppercase tracking-widest text-[10px] block mb-2">Our Location</span>
-                        <p className="font-bold text-slate-900 leading-tight">We're based in the heart of Schaumburg's athletic community.</p>
+                        <p className="font-bold text-slate-900 leading-tight">We're based in the heart of the Stockton community.</p>
                     </div>
                 </div>
             </div>
