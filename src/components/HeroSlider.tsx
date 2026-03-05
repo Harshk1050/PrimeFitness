@@ -66,21 +66,21 @@ const HeroSlider = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent pointer-events-none z-[1]" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none z-[1]" />
 
-            {/* Hero Content - Sophisticated bottom-left placement */}
-            <div className="relative z-10 flex flex-col items-start justify-end h-full text-left px-6 md:px-16 pb-16 md:pb-24">
+            {/* Hero Content */}
+            <div className="relative z-10 flex flex-col items-start justify-end h-full w-full text-left px-6 md:px-16 lg:px-24 pb-20 md:pb-32">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentSlide}
-                        initial={{ y: 30, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: -20, opacity: 0 }}
+                        initial={{ x: -30, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ x: 20, opacity: 0 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
-                        className="space-y-4 md:space-y-6 max-w-3xl"
+                        className="space-y-6 md:space-y-8 max-w-5xl"
                     >
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-[1] font-heading drop-shadow-xl">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter leading-[1.1] font-heading drop-shadow-xl max-w-4xl">
                             {images[currentSlide].title}
                         </h1>
-                        <p className="text-base md:text-xl text-gray-200 font-medium max-w-xl tracking-wide leading-relaxed drop-shadow-md">
+                        <p className="text-base md:text-lg lg:text-xl text-gray-200 font-medium max-w-2xl tracking-wide leading-relaxed drop-shadow-md">
                             {images[currentSlide].subtitle}
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-start pt-4 relative z-50">

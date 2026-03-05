@@ -199,7 +199,7 @@ const AboutPage = () => {
                             <img
                                 src="/2.jpeg"
                                 alt="Parvinder Kaur"
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover object-top"
                             />
                             <div className="absolute bottom-10 right-0 bg-slate-900 text-white py-4 px-8 rounded-l-2xl font-black text-xl shadow-xl">
                                 CFO
