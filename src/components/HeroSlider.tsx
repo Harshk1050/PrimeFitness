@@ -77,7 +77,7 @@ const HeroSlider = () => {
                         transition={{ duration: 0.6, ease: "easeOut" }}
                         className="space-y-4 md:space-y-6 max-w-3xl"
                     >
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-[1] uppercase font-heading drop-shadow-xl">
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-[1] font-heading drop-shadow-xl">
                             {images[currentSlide].title}
                         </h1>
                         <p className="text-base md:text-xl text-gray-200 font-medium max-w-xl tracking-wide leading-relaxed drop-shadow-md">
