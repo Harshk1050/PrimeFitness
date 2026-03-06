@@ -80,11 +80,11 @@ const TrainerCard = ({ trainer, idx }: { trainer: typeof trainers[0], idx: numbe
             className="group relative bg-white rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 flex flex-col md:flex-row"
         >
             {/* Trainer Image */}
-            <div className="md:w-1/2 relative aspect-[4/5] md:aspect-auto overflow-hidden">
+            <div className="md:w-1/2 relative bg-slate-100 overflow-hidden">
                 <img
                     src={trainer.image}
                     alt={trainer.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-auto md:h-full object-contain md:object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
             </div>

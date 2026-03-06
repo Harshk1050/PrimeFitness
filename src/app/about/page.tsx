@@ -247,7 +247,7 @@ const AboutPage = () => {
                         <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl bg-slate-100">
                             <img
                                 src="/fatima.png"
-                                alt="Fatima"
+                                alt="Fatima Ortiz Vakameilalo"
                                 className="w-full h-full object-cover"
                             />
                             <div className="absolute bottom-10 left-0 bg-slate-900 text-white py-4 px-8 rounded-r-2xl font-black text-xl shadow-xl">
@@ -264,7 +264,7 @@ const AboutPage = () => {
                         className="lg:w-1/2 space-y-6"
                     >
                         <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter leading-none">
-                            Fatima
+                            Fatima Ortiz <span className="text-green-600"> Vakameilalo </span>
                         </h2>
                         <p className="text-green-600 font-bold uppercase tracking-widest text-sm">Administrator</p>
 
