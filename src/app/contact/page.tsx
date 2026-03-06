@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Phone, MapPin, Clock, Send, Instagram, CheckCircle2 } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Send, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 const ContactPage = () => {
@@ -154,20 +154,6 @@ const ContactPage = () => {
                                 </motion.div>
                             </div>
 
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                transition={{ duration: 1 }}
-                                viewport={{ once: true }}
-                                className="pt-8 border-t border-slate-100"
-                            >
-                                <h4 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-6 text-center lg:text-left">Follow Our Journey</h4>
-                                <div className="flex justify-center lg:justify-start gap-4">
-                                    <a href="https://www.instagram.com/prime.fitnessplus" target="_blank" rel="noopener noreferrer" className="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center text-white hover:bg-green-600 hover:scale-110 transition-all duration-500 shadow-xl">
-                                        <Instagram size={28} />
-                                    </a>
-                                </div>
-                            </motion.div>
                         </div>
 
                         {/* Contact Form Container */}

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Twitter, Youtube, Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
     return (
@@ -48,11 +48,7 @@ const Footer = () => {
                                 Mon-Fri 9AM - 6PM
                             </span>
                         </div>
-                        <div className="flex gap-4">
-                            <a href="https://www.instagram.com/prime.fitnessplus" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-white hover:bg-green-600 hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-slate-200">
-                                <Instagram size={20} />
-                            </a>
-                        </div>
+
                     </div>
 
                     {/* Quick Links & Focus Grid */}

@@ -11,7 +11,7 @@ const trainers = [
         image: "/eric.jpeg",
         specialties: ["Adaptive Performance", "Corrective Exercise", "Elite Athletics"],
         bio: "Eric is a Corrective Exercise Specialist (CES) and Athletic Enhancement Specialist (AES - Elite) through the National Academy of Sports Medicine, with a formal degree in Kinesiology. With over 22 years of experience, he brings unparalleled technical expertise in architecting protocols for athletes of all physical backgrounds. Eric is passionate about redefining what it means to be an athlete, believing it is not confined to a specific look but expressed through purpose and resilience. He leads with humility, committed to live with integrity so that his actions align with what he teaches.",
-        instagram: "https://www.instagram.com/prime.fitnessplus"
+
     },
     {
         name: "Parvinder Kaur",
@@ -19,7 +19,7 @@ const trainers = [
         image: "/2.jpeg",
         specialties: ["Adaptive Performance", "Business Leadership", "Community Empowerment"],
         bio: "Over 15 years of leadership in the fitness and wellness industry. Dedicated to making fitness accessible and inclusive through innovative programming. Her leadership philosophy centers on empowerment and community building. She believes that fitness is about creating lasting positive change through personalized care and a supportive environment.",
-        instagram: "https://www.instagram.com/prime.fitnessplus"
+
     },
     {
         name: "Demetrius Brown",
@@ -27,7 +27,7 @@ const trainers = [
         image: "/Demetrius.png",
         specialties: ["Adaptive Performance", "Sports Management", "Nutrition & Wellness"],
         bio: "Demetrius is a former collegiate football player at Huntingdon College in Montgomery, Alabama, where he earned a Bachelor's degree in Sports Management. He has over a year of experience working in employment services and fitness training for individuals with disabilities. Demetrius is also an advocate for health and wellness products and is currently working toward his Nutritionist Certification through ISSA, further expanding his ability to support healthy, active lifestyles.",
-        instagram: "https://www.instagram.com/prime.fitnessplus"
+
     },
     {
         name: "Tucker Baird",
@@ -35,7 +35,7 @@ const trainers = [
         image: "/tucker.png",
         specialties: ["Adaptive Performance", "Clinical Rehabilitation", "Strength & Conditioning"],
         bio: "Tucker Baird is an NASM Certified Personal Trainer currently studying kinesiology with a specialty in clinical rehabilitation. My background in collegiate baseball, bodybuilding, and powerlifting gives me a strong foundation in strength and performance, but my true passion is helping people of all abilities feel confident and capable in their bodies. I value integrity, hard work, and creating a training environment where every client feels supported and respected.",
-        instagram: "https://www.instagram.com/prime.fitnessplus"
+
     },
     {
         name: "Arshdeep Singh",
@@ -43,7 +43,7 @@ const trainers = [
         image: "/arshdeep.png",
         specialties: ["Adaptive Performance", "Functional Mobility", "Safety & Mechanics"],
         bio: "Arshdeep is a personal trainer specializing in adaptive performance, with experience supporting clients through structured and individualized training. He focuses on building strength, mobility, and confidence using clear communication, consistent routines, and evidence-based movement strategies. His approach prioritizes safety, patience, and long-term functional progress for clients of all abilities.",
-        instagram: "https://www.instagram.com/prime.fitnessplus"
+
     },
     {
         name: "Arman Haq",
@@ -51,7 +51,7 @@ const trainers = [
         image: "/haq_final.jpg",
         specialties: ["Adaptive Performance", "Rehab-to-Performance", "Individualized Mechanics"],
         bio: "Arman specializes in architecting specialized movement pathways for individuals with complex physical and sensory needs. With a deep focus on bridging the gap between clinical rehabilitation and high-performance training, he combines evidence-based biomechanics with a client-first philosophy. Arman is dedicated to ensuring that every athlete—regardless of their starting point—discovers their uncompromising peak through safety, precision, and patient, expert-led coaching.",
-        instagram: "https://www.instagram.com/prime.fitnessplus"
+
     },
     {
         name: "Evan James Brizendine",
@@ -59,7 +59,7 @@ const trainers = [
         image: "/Evan.png",
         specialties: ["Adaptive Performance", "CSCS", "Athlete Development"],
         bio: "Accomplished strength and conditioning coach with experience leading comprehensive training programs for 250+ collegiate athletes across 15 sports. Successfully designed and implemented safe, performance-driven programs improving strength, power, speed, and injury resilience. A proven leader who supervised and mentored coaches, managed weight room operations, and delivered consistent, high-quality athlete development. Brings additional expertise training diverse populations—from high school and collegiate athletes to older adults with comorbidities—supported by advanced certifications including CSCS and Senior Fitness Specialist.",
-        instagram: "https://www.instagram.com/prime.fitnessplus"
+
     }
 ];
 
