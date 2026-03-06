@@ -81,7 +81,7 @@ const ContactPage = () => {
                                     <span className="text-green-600">transformation.</span>
                                 </h2>
                                 <p className="text-xl text-slate-600 font-light leading-relaxed">
-                                    Whether you're looking for adaptive training, high-performance coaching, or simply want to learn more about our facility, our team is ready to assist you.
+                                    Whether you're looking for adaptive training, high-performance coaching, or simply want to learn more about our services, our team is ready to assist you.
                                 </p>
                             </motion.div>
 
@@ -208,7 +208,7 @@ const ContactPage = () => {
                                             <select name="inquiry" className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-5 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all font-medium appearance-none cursor-pointer">
                                                 <option>Personal Adaptive Fitness Training</option>
                                                 <option>Adaptive Athletics</option>
-                                                <option>Facility Membership</option>
+                                                <option>Program Membership</option>
                                                 <option>Other / General Inquiry</option>
                                             </select>
                                         </div>

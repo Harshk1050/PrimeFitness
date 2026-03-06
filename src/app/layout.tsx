@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PrimeFitness - Unleash Your Potential",
-  description: "Join the best gym in town and achieve your fitness goals.",
+  title: "Prime Fitness Plus - Unleash Your Potential",
+  description: "Prime Fitness Plus LLC - High performance adaptive fitness and athletic development services based in Stockton, CA.",
   icons: {
     icon: "/icon.png",
     apple: "/icon.png",

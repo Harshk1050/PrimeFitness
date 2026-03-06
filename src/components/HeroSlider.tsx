@@ -16,12 +16,12 @@ const HeroSlider = () => {
         {
             url: "/slide1.jpg",
             title: "Fitness Without Barriers",
-            subtitle: "Our gym welcomes athletes of all abilities, including adaptive and disabled athletes.",
+            subtitle: "Our community welcomes athletes of all abilities, including adaptive and disabled athletes.",
         },
         {
             url: "/slide2.jpg",
             title: "Accessible Facilities. Personalized Support. Zero Barriers.",
-            subtitle: "Our center is designed with accessibility at its core.",
+            subtitle: "Our mission is designed with accessibility at its core.",
         },
         {
             url: "/slide4.jpg",

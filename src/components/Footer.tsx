@@ -37,12 +37,12 @@ const Footer = () => {
                                 />
                             </div>
                             <span className="text-2xl font-black tracking-tighter uppercase">
-                                PRIME<span className="text-green-600">FITNESS</span>
+                                PRIME FITNESS <span className="text-green-600">PLUS</span>
                             </span>
                         </Link>
                         <div className="space-y-4">
                             <p className="text-slate-500 leading-relaxed font-medium text-sm max-w-sm">
-                                Elevating the athletic experience through adaptive training and high-performance methodology. Join us at our premier Stockton facility.
+                                Elevating the athletic experience through adaptive training and high-performance methodology. Join our community in Stockton.
                             </p>
                             <span className="inline-block px-4 py-1.5 bg-green-50 text-green-700 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-green-100">
                                 Mon-Fri 9AM - 6PM

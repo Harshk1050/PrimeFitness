@@ -81,7 +81,7 @@ const AboutPage = () => {
                                 <div className="space-y-4">
                                     <h3 className="text-xl font-black uppercase tracking-tight text-slate-900">Based in Stockton</h3>
                                     <p className="text-slate-600 leading-relaxed font-light">
-                                        Strategically located at <span className="italic text-slate-900 font-medium">359 Gianna Way, Stockton, CA 95209</span>. This facility serves as the headquarters for our adaptive fitness community and management operations.
+                                        Strategically located at <span className="italic text-slate-900 font-medium">Stockton, CA 95209</span>. This serves as the headquarters for our adaptive fitness community and management operations.
                                     </p>
                                 </div>
                             </motion.div>
@@ -94,7 +94,7 @@ const AboutPage = () => {
                                 className="p-8 bg-white border border-slate-200 rounded-2xl"
                             >
                                 <p className="text-xl text-slate-700 leading-relaxed font-medium italic">
-                                    "Categorized under 'FITNESS TRAINING' by the California Secretary of State, we are more than just a gym—we are a professional hub for athletic development and personal transformation."
+                                    "Categorized under 'FITNESS TRAINING' by the California Secretary of State, we are a professional hub for athletic development and personal transformation."
                                 </p>
                             </motion.div>
                         </div>
@@ -119,7 +119,7 @@ const AboutPage = () => {
                             </div>
 
                             <div className="space-y-6 pt-12 border-t border-slate-100">
-                                <span className="text-slate-400 font-bold uppercase tracking-[0.2em] text-xs">Facility Highlights</span>
+                                <span className="text-slate-400 font-bold uppercase tracking-[0.2em] text-xs">Service Highlights</span>
                                 <ul className="space-y-4">
                                     {["Adaptive & Accessible for All", "Weight Training", "Cardio Equipment", "Fully Inclusive Design", "Performance Hub"].map((item, idx) => (
                                         <li key={idx} className="flex items-center gap-3 text-slate-900 font-black uppercase tracking-tighter text-sm">
@@ -226,10 +226,10 @@ const AboutPage = () => {
                                 Parvinder Kaur brings over 15 years of leadership experience in the fitness and wellness industry. With a background in business management and a passion for health and fitness, she has dedicated her career to making fitness accessible and inclusive for all individuals.
                             </p>
                             <p>
-                                Her leadership philosophy centers on empowerment, community building, and sustainable growth. Parvinder believes that fitness is not just about physical transformation, but about creating lasting positive change in people's lives through personalized care, innovative programming, and a supportive environment.
+                                Her leadership philosophy focuses on empowerment, community building, and sustainable growth. Parvinder believes that fitness is not just about physical transformation, but about creating lasting positive change in people's lives through personalized care, innovative programming, and a supportive environment.
                             </p>
                             <p>
-                                Under her guidance, PrimeFitness has expanded its reach while maintaining its core values of compassion, excellence, and inclusivity. She is committed to fostering a culture where every team member and client feels valued, supported, and empowered to achieve their fullest potential.
+                                Under her guidance, Prime Fitness Plus has expanded its reach while maintaining its core values of compassion, excellence, and inclusivity. She is committed to fostering a culture where every team member and client feels valued, supported, and empowered to achieve their fullest potential.
                             </p>
                         </div>
                     </motion.div>
@@ -266,20 +266,20 @@ const AboutPage = () => {
                         <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter leading-none">
                             Fatima
                         </h2>
-                        <p className="text-green-600 font-bold uppercase tracking-widest text-sm">Gym Administrator</p>
+                        <p className="text-green-600 font-bold uppercase tracking-widest text-sm">Administrator</p>
 
                         <div className="space-y-4 text-slate-600 leading-relaxed font-light">
                             <p className="text-lg font-normal text-slate-900 uppercase tracking-tight italic">
                                 "Ensuring every detail aligns with our mission of accessibility and excellence."
                             </p>
                             <p>
-                                Fatima is the backbone of our administrative operations, ensuring that PrimeFitness remains a seamless and welcoming environment for all. With a keen eye for detail and a passion for community service, she manages the daily coordination of our programs, ensuring that every member's needs are met with efficiency and care.
+                                Fatima is the backbone of our administrative operations, ensuring that Prime Fitness Plus remains a seamless and welcoming environment for all. With a keen eye for detail and a passion for community service, she manages the daily coordination of our programs, ensuring that every member's needs are met with efficiency and care.
                             </p>
                             <p>
-                                Her commitment to accessibility extends beyond the gym floor, as she works tirelessly to ensure that our administrative processes are as inclusive as our training protocols. Fatima's dedication to the adaptive mission is evident in every interaction, making her an essential pillar of the PrimeFitness community.
+                                Her commitment to accessibility extends beyond the floor, as she works tirelessly to ensure that our administrative processes are as inclusive as our training protocols. Fatima's dedication to the adaptive mission is evident in every interaction, making her an essential pillar of the Prime Fitness Plus community.
                             </p>
                             <p>
-                                At Adaptive Fitness Gym, Fatima oversees the logistical complexities of specialized equipment maintenance and adaptive programming scheduling. She is dedicated to fostering a supportive atmosphere where diversity is celebrated and every individual feels empowered to pursue their fitness journey without barriers.
+                                At Adaptive Fitness, Fatima oversees the logistical complexities of specialized equipment maintenance and adaptive programming scheduling. She is dedicated to fostering a supportive atmosphere where diversity is celebrated and every individual feels empowered to pursue their fitness journey without barriers.
                             </p>
                         </div>
                     </motion.div>
@@ -306,7 +306,7 @@ const AboutPage = () => {
                         <div className="lg:w-2/3 space-y-24">
                             {[
                                 { title: "Compassion", text: "We approach every individual with empathy and genuine care for their wellbeing. We believe that true growth happens in an environment where people feel seen, heard, and supported." },
-                                { title: "Inclusivity", text: "Everyone deserves quality fitness training in welcoming spaces where all abilities are celebrated. Our facility and programs are built from the ground up to be accessible to all." },
+                                { title: "Inclusivity", text: "Everyone deserves quality fitness training in welcoming spaces where all abilities are celebrated. Our training and programs are built from the ground up to be accessible to all." },
                                 { title: "Excellence", text: "We maintain the highest standards in training and service delivery for optimal outcomes. We never settle for 'good enough' when it comes to the safety and progress of our members." },
                                 { title: "Community", text: "We foster supportive communities where individuals connect and grow together. Fitness is a journey that is better traveled with others who share your drive and respect your challenges." },
                                 { title: "Innovation", text: "We continuously research and implement the latest adaptive performance techniques. Our methods are evidence-based and constantly evolving to provide the best possible results." },
@@ -356,7 +356,7 @@ const AboutPage = () => {
                             { step: "01", title: "Initial Assessment", text: "Every journey begins with a thorough assessment of your unique abilities, goals, and medical history. We don't believe in one-size-fits-all; we believe in understanding where you are to map out exactly where you can go." },
                             { step: "02", title: "Personalized Programming", text: "Our certified trainers develop individualized workout plans using evidence-based methods combined with adaptive equipment. Each program is a living document, evolving as you gain strength and confidence." },
                             { step: "03", title: "Ongoing Support", text: "We provide continuous support with regular progress evaluations and program adjustments. You are never alone in this process; we are with you at every milestone, ensuring you stay motivated and on track." },
-                            { step: "04", title: "Holistic Wellness", text: "Beyond physical training, we address nutrition, mental wellbeing, and lifestyle factors. True fitness is a 360-degree endeavor that encompasses your entire life, not just the hours spent in the gym." }
+                            { step: "04", title: "Holistic Wellness", text: "Beyond physical training, we address nutrition, mental wellbeing, and lifestyle factors. True fitness is a 360-degree endeavor that encompasses your entire life, not just the hours spent in training." }
                         ].map((approach, idx) => (
                             <motion.div
                                 key={idx}
@@ -415,7 +415,7 @@ const AboutPage = () => {
 
                             <div className="space-y-6">
                                 <p className="text-2xl text-slate-200 font-light leading-relaxed">
-                                    Experience the PrimeFitness difference and achieve your wellness goals.
+                                    Experience the Prime Fitness Plus difference and achieve your wellness goals.
                                 </p>
                                 <p className="text-lg text-slate-400 leading-relaxed max-w-xl italic border-l-4 border-green-600 pl-6">
                                     "Strength is not measured by where you start, but by the grit you show in moving forward. Whether you're an elite athlete or overcoming physical challenges, your potential is limitless here."

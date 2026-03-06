@@ -189,7 +189,7 @@ export default function Home() {
                   We believe strength is not about pushing beyond limits, it is about discovering what is possible for your body today.
                 </p>
                 <p>
-                  Our adaptive wellness center is thoughtfully designed for individuals with mobility limitations, neurological conditions, recovery needs, and mental health challenges. Whether you are rebuilding strength after surgery, managing a chronic condition, navigating physical disability, or seeking structured movement for emotional well-being, we provide a safe and supportive environment tailored to you.
+                  Our adaptive training is thoughtfully designed for individuals with mobility limitations, neurological conditions, recovery needs, and mental health challenges. Whether you are rebuilding strength after surgery, managing a chronic condition, navigating physical disability, or seeking structured movement for emotional well-being, we provide a safe and supportive environment tailored to you.
                 </p>
                 <p>
                   Here, progress is guided by professional assessment, individualized programming, and compassionate coaching. We adapt the training, not the person.
@@ -388,7 +388,7 @@ export default function Home() {
                           <select name="inquiry" className="w-full bg-white/5 border-2 border-transparent focus:border-green-500 focus:bg-white/10 p-5 rounded-2xl transition-all outline-none font-medium text-white appearance-none cursor-pointer">
                             <option className="bg-slate-900">Personal Adaptive Fitness Training</option>
                             <option className="bg-slate-900">Adaptive Athletics</option>
-                            <option className="bg-slate-900">Facility Membership</option>
+                            <option className="bg-slate-900">Program Membership</option>
                             <option className="bg-slate-900">Other / General Inquiry</option>
                           </select>
                         </div>
@@ -426,7 +426,7 @@ export default function Home() {
                       </div>
                       <h3 className="text-3xl font-black uppercase text-white tracking-tighter">Your inquiry is on its way!</h3>
                       <p className="text-slate-400 font-medium max-w-sm mx-auto">
-                        Thank you for reaching out to Prime Fitness. One of our elite coaches will contact you shortly to discuss your goals.
+                        Thank you for reaching out to Prime Fitness Plus. One of our elite coaches will contact you shortly to discuss your goals.
                       </p>
                       <button
                         onClick={() => setIsSuccess(false)}

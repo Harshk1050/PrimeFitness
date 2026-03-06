@@ -18,7 +18,7 @@ const trainers = [
         role: "CFO & Operations Lead",
         image: "/2.jpeg",
         specialties: ["Adaptive Performance", "Business Leadership", "Community Empowerment"],
-        bio: "Over 15 years of leadership in the fitness and wellness industry. Dedicated to making fitness accessible and inclusive through innovative programming. Her leadership philosophy centers on empowerment and community building. She believes that fitness is about creating lasting positive change through personalized care and a supportive environment.",
+        bio: "Over 15 years of leadership in the fitness and wellness industry. Dedicated to making fitness accessible and inclusive through innovative programming. Her leadership philosophy focuses on empowerment and community building. She believes that fitness is about creating lasting positive change through personalized care and a supportive environment.",
 
     },
     {
