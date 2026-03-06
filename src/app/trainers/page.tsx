@@ -84,7 +84,7 @@ const TrainerCard = ({ trainer, idx }: { trainer: typeof trainers[0], idx: numbe
                 <img
                     src={trainer.image}
                     alt={trainer.name}
-                    className="w-full h-auto md:h-full object-contain md:object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-auto md:h-full object-contain md:object-cover transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
             </div>
