@@ -186,8 +186,8 @@ const AboutPage = () => {
                     </motion.div>
                 </div>
 
-                {/* Parvinder Kaur Section (CEO) */}
-                <div className="flex flex-col lg:flex-row-reverse gap-16 items-center">
+                {/* Parvinder Kaur Section (CFO) */}
+                <div className="flex flex-col lg:flex-row-reverse gap-16 items-center pb-16 border-b border-slate-100">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -230,6 +230,56 @@ const AboutPage = () => {
                             </p>
                             <p>
                                 Under her guidance, PrimeFitness has expanded its reach while maintaining its core values of compassion, excellence, and inclusivity. She is committed to fostering a culture where every team member and client feels valued, supported, and empowered to achieve their fullest potential.
+                            </p>
+                        </div>
+                    </motion.div>
+                </div>
+
+                {/* Fatima Section (Admin) */}
+                <div className="flex flex-col lg:flex-row gap-16 items-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        viewport={{ once: true }}
+                        className="lg:w-1/2 relative"
+                    >
+                        <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl bg-slate-100">
+                            <img
+                                src="/fatima.png"
+                                alt="Fatima"
+                                className="w-full h-full object-cover"
+                            />
+                            <div className="absolute bottom-10 left-0 bg-slate-900 text-white py-4 px-8 rounded-r-2xl font-black text-xl shadow-xl">
+                                ADMIN
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                        viewport={{ once: true }}
+                        className="lg:w-1/2 space-y-6"
+                    >
+                        <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter leading-none">
+                            Fatima
+                        </h2>
+                        <p className="text-green-600 font-bold uppercase tracking-widest text-sm">Gym Administrator</p>
+
+                        <div className="space-y-4 text-slate-600 leading-relaxed font-light">
+                            <p className="text-lg font-normal text-slate-900 uppercase tracking-tight italic">
+                                "Ensuring every detail aligns with our mission of accessibility and excellence."
+                            </p>
+                            <p>
+                                Fatima is the backbone of our administrative operations, ensuring that PrimeFitness remains a seamless and welcoming environment for all. With a keen eye for detail and a passion for community service, she manages the daily coordination of our programs, ensuring that every member's needs are met with efficiency and care.
+                            </p>
+                            <p>
+                                Her commitment to accessibility extends beyond the gym floor, as she works tirelessly to ensure that our administrative processes are as inclusive as our training protocols. Fatima's dedication to the adaptive mission is evident in every interaction, making her an essential pillar of the PrimeFitness community.
+                            </p>
+                            <p>
+                                At Adaptive Fitness Gym, Fatima oversees the logistical complexities of specialized equipment maintenance and adaptive programming scheduling. She is dedicated to fostering a supportive atmosphere where diversity is celebrated and every individual feels empowered to pursue their fitness journey without barriers.
                             </p>
                         </div>
                     </motion.div>
