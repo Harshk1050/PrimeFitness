@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import BackgroundImage from "@/components/BackgroundImage";
 import { motion, AnimatePresence } from "framer-motion";
 import { Zap, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -80,11 +82,13 @@ const TrainerCard = ({ trainer, idx }: { trainer: typeof trainers[0], idx: numbe
             className="group relative bg-white rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 flex flex-col md:flex-row"
         >
             {/* Trainer Image */}
-            <div className="md:w-1/2 relative bg-slate-100 overflow-hidden">
-                <img
+            <div className="md:w-1/2 relative bg-slate-100 overflow-hidden min-h-[300px] md:min-h-0">
+                <Image
                     src={trainer.image}
                     alt={trainer.name}
-                    className="w-full h-auto md:h-full object-contain md:object-cover transition-transform duration-700"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-contain md:object-cover transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
             </div>
@@ -142,10 +146,13 @@ const TrainersPage = () => {
         <main className="min-h-screen bg-white text-slate-900 pt-0">
             {/* Header Section - Cinematic Hero */}
             <div className="relative flex flex-col items-center justify-center min-h-[60vh] overflow-hidden">
-                <div
-                    className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-transform duration-[2s] scale-105"
-                    style={{ backgroundImage: "url('https://images.unsplash.com/photo-1577221084712-45b0445d2b00?auto=format&fit=crop&w=1920&q=80')" }}
-                >
+                <div className="absolute inset-0 z-0">
+                    <BackgroundImage
+                        src="https://images.unsplash.com/photo-1577221084712-45b0445d2b00?auto=format&fit=crop&q=80"
+                        alt=""
+                        priority
+                        className="scale-105"
+                    />
                     <div className="absolute inset-0 bg-slate-900/10 backdrop-blur-[2px]"></div>
                     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.6)_0%,_transparent_100%)]"></div>
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white"></div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 const HeroSlider = () => {
@@ -55,9 +56,17 @@ const HeroSlider = () => {
                             scale: index === currentSlide ? 1 : 1.05
                         }}
                         transition={{ duration: 1.5, ease: "easeInOut" }}
-                        className="absolute inset-0 w-full h-full bg-cover bg-center"
-                        style={{ backgroundImage: `url(${image.url})` }}
-                    />
+                        className="absolute inset-0 w-full h-full"
+                    >
+                        <Image
+                            src={image.url}
+                            alt=""
+                            fill
+                            sizes="100vw"
+                            priority={index === 0}
+                            className="object-cover object-center"
+                        />
+                    </motion.div>
                 ))}
             </div>
 

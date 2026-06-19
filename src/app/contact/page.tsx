@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import BackgroundImage from "@/components/BackgroundImage";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
@@ -40,10 +42,13 @@ const ContactPage = () => {
         <main className="min-h-screen bg-white text-slate-900 pt-0">
             {/* Header Section - Full Screen "First Page" with Background */}
             <div className="relative flex flex-col items-center justify-center min-h-[60vh] overflow-hidden">
-                <div
-                    className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-transform duration-[2s] scale-105"
-                    style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1920&q=80')" }}
-                >
+                <div className="absolute inset-0 z-0">
+                    <BackgroundImage
+                        src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80"
+                        alt=""
+                        priority
+                        className="scale-105"
+                    />
                     <div className="absolute inset-0 bg-slate-900/10 backdrop-blur-[2px]"></div>
                     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.6)_0%,_transparent_100%)]"></div>
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white"></div>

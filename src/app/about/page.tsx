@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import BackgroundImage from "@/components/BackgroundImage";
 import Link from "next/link";
 import { Award, BookOpen, Target, Users } from "lucide-react";
 
@@ -11,10 +12,13 @@ const AboutPage = () => {
             {/* Header Section - Full Screen "First Page" with Background */}
             <div className="relative flex flex-col items-center justify-center min-h-screen mb-0 overflow-hidden">
                 {/* Background Image with Overlay */}
-                <div
-                    className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-transform duration-[2s] scale-105"
-                    style={{ backgroundImage: "url('/about-hero-adaptive.png')" }}
-                >
+                <div className="absolute inset-0 z-0">
+                    <BackgroundImage
+                        src="/about-hero-adaptive.png"
+                        alt=""
+                        priority
+                        className="scale-105"
+                    />
                     <div className="absolute inset-0 bg-slate-900/10 backdrop-blur-[2px]"></div>
                     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.6)_0%,_transparent_100%)]"></div>
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white"></div>
@@ -146,10 +150,12 @@ const AboutPage = () => {
                         className="lg:w-1/2 relative"
                     >
                         <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl bg-slate-100">
-                            <img
+                            <Image
                                 src="/eric.jpeg"
                                 alt="Eric Harry Davis"
-                                className="w-full h-full object-cover"
+                                fill
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                className="object-cover"
                             />
                             <div className="absolute bottom-10 left-0 bg-slate-900 text-white py-4 px-8 rounded-r-2xl font-black text-xl shadow-xl">
                                 CEO
@@ -196,10 +202,12 @@ const AboutPage = () => {
                         className="lg:w-1/2 relative"
                     >
                         <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl bg-slate-100">
-                            <img
+                            <Image
                                 src="/2.jpeg"
                                 alt="Parvinder Kaur"
-                                className="w-full h-full object-cover object-top"
+                                fill
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                className="object-cover object-top"
                             />
                             <div className="absolute bottom-10 right-0 bg-slate-900 text-white py-4 px-8 rounded-l-2xl font-black text-xl shadow-xl">
                                 CFO
@@ -245,10 +253,12 @@ const AboutPage = () => {
                         className="lg:w-1/2 relative"
                     >
                         <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl bg-slate-100">
-                            <img
+                            <Image
                                 src="/fatima.png"
                                 alt="Fatima Ortiz Vakameilalo"
-                                className="w-full h-full object-cover"
+                                fill
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                className="object-cover"
                             />
                             <div className="absolute bottom-10 left-0 bg-slate-900 text-white py-4 px-8 rounded-r-2xl font-black text-xl shadow-xl">
                                 ADMIN
@@ -391,10 +401,12 @@ const AboutPage = () => {
             {/* Motivational CTA Section */}
             <section className="relative py-20 md:py-32 overflow-hidden">
                 {/* Background Image with Parallax Effect */}
-                <div
-                    className="absolute inset-0 bg-cover bg-center bg-fixed z-0"
-                    style={{ backgroundImage: "url('https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=1920&q=80')" }}
-                ></div>
+                <div className="absolute inset-0 z-0">
+                    <BackgroundImage
+                        src="https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&q=80"
+                        alt=""
+                    />
+                </div>
 
                 {/* Gradient Overlay for Depth and Readability */}
                 <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent z-10"></div>
