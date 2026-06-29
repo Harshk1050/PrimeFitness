@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import Script from "next/script";
 import "./globals.css";
+
+import { Geist, Geist_Mono } from "next/font/google";
+
+import Footer from "@/components/Footer";
+import type { Metadata } from "next";
+import Navbar from "@/components/Navbar";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +19,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Prime Fitness Plus - Unleash Your Potential",
-  description: "Prime Fitness Plus LLC - High performance adaptive fitness and athletic development services based in Stockton, CA.",
+  description:
+    "Prime Fitness Plus LLC - High performance adaptive fitness and athletic development services based in Stockton, CA.",
   icons: {
     icon: "/icon.png",
     apple: "/icon.png",
@@ -31,13 +34,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-WET8BMKMR0" strategy="afterInteractive" />
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-BLMY13KD38"
+        strategy="afterInteractive"
+      />
       <Script id="google-analytics" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-WET8BMKMR0');
+           gtag('config', 'G-BLMY13KD38');
         `}
       </Script>
       <body
