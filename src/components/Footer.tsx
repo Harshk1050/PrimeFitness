@@ -56,10 +56,10 @@ const Footer = () => {
                         <div className="space-y-8">
                             <h4 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400">Navigation</h4>
                             <ul className="space-y-4">
-                                {["Home", "About", "Trainers", "Contact"].map((item) => (
+                                {["Home", "About", "Trainers", "Blogs", "Contact"].map((item) => (
                                     <li key={item}>
                                         <Link
-                                            href={item === "About" ? "/about" : item === "Contact" ? "/contact" : item === "Trainers" ? "/trainers" : "/"}
+                                            href={item === "About" ? "/about" : item === "Contact" ? "/contact" : item === "Trainers" ? "/trainers" : item === "Blogs" ? "/blogs" : "/"}
                                             className="text-slate-600 hover:text-green-600 transition-colors duration-300 font-bold text-sm uppercase tracking-wider block"
                                         >
                                             {item}
