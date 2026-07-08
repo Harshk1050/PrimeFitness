@@ -1,5 +1,6 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -16,31 +17,20 @@ export default function LoginPage() {
     const password = fd.get("password") as string;
 
     try {
-      const csrfRes = await fetch("/api/auth/csrf");
-      const { csrfToken } = await csrfRes.json();
-
-      const res = await fetch("/api/auth/callback/credentials", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          email,
-          password,
-          csrfToken,
-          callbackUrl: "/admin",
-          json: "true",
-        }),
-        redirect: "manual",
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/admin/blogs",
       });
 
-      const location = res.headers.get("location") ?? "";
-
-      if (location.includes("error") || location.includes("/admin/login")) {
+      if (result?.error) {
         setError("Invalid email or password");
         setLoading(false);
         return;
       }
 
-      window.location.href = "/admin/blogs";
+      window.location.href = result?.url ?? "/admin/blogs";
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Please try again.");
