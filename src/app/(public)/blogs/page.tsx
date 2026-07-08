@@ -4,6 +4,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { connectDB } from "@/lib/mongoose";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Blogs | Prime Fitness Plus",
   description:

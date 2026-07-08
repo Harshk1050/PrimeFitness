@@ -23,7 +23,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 
-.env.production
+.env.*
 
 
 # vercel

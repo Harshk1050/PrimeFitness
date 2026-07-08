@@ -1,10 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { IBlog } from "@/models/Blog";
-import Image from "next/image";
 import { RichTextEditor } from "./rich-text-editor";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 type BlogFormData = Omit<IBlog, "createdAt" | "updatedAt">;
 
@@ -71,6 +71,7 @@ export function BlogForm({ initialData, mode }: Props) {
   const [imagePreview, setImagePreview] = useState(
     initialData?.featuredImage || "",
   );
+  const [previewObjectUrl, setPreviewObjectUrl] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [tagsInput, setTagsInput] = useState(
     (initialData?.tags || []).join(", "),
@@ -114,15 +115,40 @@ export function BlogForm({ initialData, mode }: Props) {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    const previewUrl = URL.createObjectURL(file);
+    setImagePreview(previewUrl);
+    setPreviewObjectUrl(previewUrl);
     setUploadingImage(true);
-    const fd = new FormData();
-    fd.append("file", file);
-    const res = await fetch("/api/upload", { method: "POST", body: fd });
-    const data = await res.json();
-    set("featuredImage", data.url);
-    setImagePreview(data.url);
-    setUploadingImage(false);
+
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const data = await res.json();
+
+      if (!res.ok || !data?.url) {
+        throw new Error("Upload failed");
+      }
+
+      set("featuredImage", data.url);
+      setImagePreview(data.url);
+      if (previewObjectUrl) {
+        URL.revokeObjectURL(previewObjectUrl);
+        setPreviewObjectUrl(null);
+      }
+    } catch (error) {
+      alert("Image upload failed. Please try again.");
+    } finally {
+      setUploadingImage(false);
+    }
   };
+
+  useEffect(() => {
+    return () => {
+      if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
+    };
+  }, [previewObjectUrl]);
 
   const handleSubmit = async (published: boolean) => {
     setSubmitted(true);
@@ -210,16 +236,19 @@ export function BlogForm({ initialData, mode }: Props) {
             </h3>
             {imagePreview && (
               <div className="relative w-full h-52 rounded-lg overflow-hidden border border-slate-200">
-                <Image
+                <img
                   src={imagePreview}
                   alt="Preview"
-                  fill
-                  className="object-cover"
+                  className="object-cover w-full h-full"
                 />
                 <button
                   onClick={() => {
                     set("featuredImage", "");
                     setImagePreview("");
+                    if (previewObjectUrl) {
+                      URL.revokeObjectURL(previewObjectUrl);
+                      setPreviewObjectUrl(null);
+                    }
                   }}
                   className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded"
                 >
