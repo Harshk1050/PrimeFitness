@@ -107,12 +107,13 @@ export default async function BlogPostPage({ params }: Props) {
 
       {blog?.featuredImage && (
         <div className="container mx-auto max-w-4xl px-6 -mt-10 relative z-10">
-          <div className="relative h-64 sm:h-96 rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+          <div className="relative w-full">
             <Image
               src={blog.featuredImage}
               alt={blog.imageAlt || blog.title}
-              fill
-              className="object-cover h-full w-full"
+              width={1267}
+              height={580}
+              className="w-full h-auto rounded-2xl shadow-2xl border-4 border-white"
               priority
             />
           </div>
