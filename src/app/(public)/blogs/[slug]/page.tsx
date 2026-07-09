@@ -112,7 +112,7 @@ export default async function BlogPostPage({ params }: Props) {
               src={blog.featuredImage}
               alt={blog.imageAlt || blog.title}
               fill
-              className="object-cover"
+              className="object-cover h-full w-full"
               priority
             />
           </div>
@@ -127,6 +127,51 @@ export default async function BlogPostPage({ params }: Props) {
           />
         </div>
       </section>
+
+      {blog?.faqs?.filter(
+        (faq: { question: string; answer: string }) =>
+          faq.question?.trim() || faq.answer?.trim(),
+      ).length > 0 && (
+        <section className="py-8 px-6">
+          <div className="container mx-auto max-w-4xl">
+            <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+              <h2 className="text-lg font-black uppercase tracking-tight text-slate-900 mb-6">
+                Frequently Asked Questions
+              </h2>
+              <div className="space-y-4">
+                {blog.faqs
+                  .filter(
+                    (faq: { question: string; answer: string }) =>
+                      faq.question?.trim() || faq.answer?.trim(),
+                  )
+                  .map(
+                    (
+                      faq: { question: string; answer: string },
+                      index: number,
+                    ) => (
+                      <details
+                        key={`${faq.question}-${index}`}
+                        className="group rounded-xl border border-slate-200 p-2"
+                      >
+                        <summary className="cursor-pointer list-none font-semibold text-slate-800 text-base">
+                          <span className="flex items-center justify-between gap-3">
+                            <span>{faq.question || `FAQ ${index + 1}`}</span>
+                            <span className="text-xl text-green-600 transition group-open:rotate-45">
+                              +
+                            </span>
+                          </span>
+                        </summary>
+                        <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                          {faq.answer}
+                        </p>
+                      </details>
+                    ),
+                  )}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {related.length > 0 && (
         <section className="py-16 px-6 bg-white border-t border-slate-100">

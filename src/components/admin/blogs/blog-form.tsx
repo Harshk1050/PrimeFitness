@@ -20,6 +20,7 @@ type BlogFormData = {
   metaDescription: string;
   published: boolean;
   publishedAt: string | null;
+  faqs: Array<{ question: string; answer: string }>;
 };
 
 type Errors = Partial<Record<keyof BlogFormData, string>>;
@@ -117,6 +118,9 @@ export function BlogForm({ initialData, mode }: Props) {
     publishedAt: formatDateInputValue(
       initialData?.publishedAt as Date | string | null,
     ),
+    faqs: initialData?.faqs?.length
+      ? initialData.faqs
+      : [{ question: "", answer: "" }],
   });
 
   const set = (key: keyof BlogFormData, value: any) => {
@@ -134,6 +138,29 @@ export function BlogForm({ initialData, mode }: Props) {
     };
     setForm(updated);
     if (submitted) setErrors(validate(updated));
+  };
+
+  const updateFaq = (
+    index: number,
+    field: "question" | "answer",
+    value: string,
+  ) => {
+    const updatedFaqs = form.faqs.map((faq, faqIndex) =>
+      faqIndex === index ? { ...faq, [field]: value } : faq,
+    );
+    set("faqs", updatedFaqs);
+  };
+
+  const addFaq = () => {
+    set("faqs", [...form.faqs, { question: "", answer: "" }]);
+  };
+
+  const removeFaq = (index: number) => {
+    const updatedFaqs = form.faqs.filter((_, faqIndex) => faqIndex !== index);
+    set(
+      "faqs",
+      updatedFaqs.length ? updatedFaqs : [{ question: "", answer: "" }],
+    );
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,6 +222,7 @@ export function BlogForm({ initialData, mode }: Props) {
         : published
           ? new Date()
           : null,
+      faqs: form.faqs.filter((faq) => faq.question.trim() || faq.answer.trim()),
     };
     const url =
       mode === "edit" ? `/api/blogs/${initialData?._id}` : "/api/blogs";
@@ -437,6 +465,60 @@ export function BlogForm({ initialData, mode }: Props) {
               onChange={(v) => set("content", v)}
             />
             <FieldError msg={errors.content} />
+          </div>
+
+          <div className="border border-slate-200 rounded-xl p-5 space-y-4">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">
+                Frequently Asked Questions
+              </h3>
+              <button
+                type="button"
+                onClick={addFaq}
+                className="text-sm font-semibold text-green-600 hover:text-green-700"
+              >
+                + Add FAQ
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {form.faqs.map((faq, index) => (
+                <div
+                  key={index}
+                  className="rounded-lg border border-slate-200 p-4 space-y-3"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                      FAQ {index + 1}
+                    </p>
+                    {form.faqs.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeFaq(index)}
+                        className="text-xs font-medium text-red-500 hover:text-red-600"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                  <input
+                    value={faq.question}
+                    onChange={(e) =>
+                      updateFaq(index, "question", e.target.value)
+                    }
+                    placeholder="Question"
+                    className={inputCls()}
+                  />
+                  <textarea
+                    value={faq.answer}
+                    onChange={(e) => updateFaq(index, "answer", e.target.value)}
+                    rows={3}
+                    placeholder="Answer"
+                    className={inputCls() + " resize-none"}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

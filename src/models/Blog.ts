@@ -1,4 +1,9 @@
-import mongoose, { Schema, models, model } from "mongoose";
+import mongoose, { Schema, model, models } from "mongoose";
+
+export interface IFaqItem {
+  question: string;
+  answer: string;
+}
 
 export interface IBlog {
   title: string;
@@ -15,6 +20,7 @@ export interface IBlog {
   metaDescription: string;
   published: boolean;
   publishedAt: Date | null;
+  faqs: IFaqItem[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -35,6 +41,15 @@ const BlogSchema = new Schema<IBlog>(
     metaDescription: { type: String, default: "" },
     published: { type: Boolean, default: false },
     publishedAt: { type: Date, default: null },
+    faqs: {
+      type: [
+        {
+          question: { type: String, default: "" },
+          answer: { type: String, default: "" },
+        },
+      ],
+      default: [],
+    },
   },
   { timestamps: true },
 );

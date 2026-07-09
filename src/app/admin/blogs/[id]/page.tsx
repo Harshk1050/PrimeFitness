@@ -29,6 +29,7 @@ export default async function EditBlogPage({
     metaDescription: blog?.metaDescription,
     published: blog?.published,
     publishedAt: blog?.publishedAt,
+    faqs: blog?.faqs || [],
   };
 
   return <BlogForm mode="edit" initialData={data} />;
