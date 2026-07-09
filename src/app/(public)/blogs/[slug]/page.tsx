@@ -80,11 +80,14 @@ export default async function BlogPostPage({ params }: Props) {
           </p>
           <div className="mt-6 flex items-center gap-4 text-slate-400 text-sm font-medium">
             <span>
-              {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })}
+              {new Date(blog.publishedAt || blog.createdAt).toLocaleDateString(
+                "en-US",
+                {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                },
+              )}
             </span>
             {blog?.tags?.length > 0 && (
               <>

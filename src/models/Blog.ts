@@ -14,6 +14,7 @@ export interface IBlog {
   canonicalUrl: string;
   metaDescription: string;
   published: boolean;
+  publishedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -33,8 +34,9 @@ const BlogSchema = new Schema<IBlog>(
     canonicalUrl: { type: String, default: "" },
     metaDescription: { type: String, default: "" },
     published: { type: Boolean, default: false },
+    publishedAt: { type: Date, default: null },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Blog = models.Blog || model<IBlog>("Blog", BlogSchema);

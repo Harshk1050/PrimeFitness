@@ -2,11 +2,25 @@
 
 import { useEffect, useState } from "react";
 
-import { IBlog } from "@/models/Blog";
 import { RichTextEditor } from "./rich-text-editor";
 import { useRouter } from "next/navigation";
 
-type BlogFormData = Omit<IBlog, "createdAt" | "updatedAt">;
+type BlogFormData = {
+  title: string;
+  slug: string;
+  category: string;
+  subCategory: string;
+  shortDescription: string;
+  content: string;
+  featuredImage: string;
+  imageAlt: string;
+  tags: string[];
+  metaTitle: string;
+  canonicalUrl: string;
+  metaDescription: string;
+  published: boolean;
+  publishedAt: string | null;
+};
 
 type Errors = Partial<Record<keyof BlogFormData, string>>;
 
@@ -33,6 +47,12 @@ function slugify(text: string) {
     .replace(/\s+/g, "-");
 }
 
+function formatDateInputValue(value?: Date | string | null) {
+  if (!value) return "";
+  const date = typeof value === "string" ? new Date(value) : value;
+  return date.toISOString().split("T")[0];
+}
+
 function validate(form: BlogFormData): Errors {
   const e: Errors = {};
   if (!form.title.trim()) e.title = "Blog title is required.";
@@ -44,6 +64,7 @@ function validate(form: BlogFormData): Errors {
     e.shortDescription = "Short description is required.";
   if (!form.content.trim() || form.content === "<p><br></p>")
     e.content = "Blog content is required.";
+  if (!form.publishedAt) e.publishedAt = "Publish date is required.";
   if (form.metaTitle && form.metaTitle.length > 60)
     e.metaTitle = "Meta title should be 60 characters or less.";
   if (form.metaDescription && form.metaDescription.length > 160)
@@ -93,6 +114,9 @@ export function BlogForm({ initialData, mode }: Props) {
     canonicalUrl: initialData?.canonicalUrl || "",
     metaDescription: initialData?.metaDescription || "",
     published: initialData?.published ?? false,
+    publishedAt: formatDateInputValue(
+      initialData?.publishedAt as Date | string | null,
+    ),
   });
 
   const set = (key: keyof BlogFormData, value: any) => {
@@ -163,7 +187,15 @@ export function BlogForm({ initialData, mode }: Props) {
       return;
     }
     setSaving(true);
-    const payload = { ...form, published };
+    const payload = {
+      ...form,
+      published,
+      publishedAt: form.publishedAt
+        ? new Date(form.publishedAt)
+        : published
+          ? new Date()
+          : null,
+    };
     const url =
       mode === "edit" ? `/api/blogs/${initialData?._id}` : "/api/blogs";
     const method = mode === "edit" ? "PUT" : "POST";
@@ -426,6 +458,21 @@ export function BlogForm({ initialData, mode }: Props) {
               <span className="text-sm font-medium text-slate-700">
                 {form.published ? "Published" : "Draft"}
               </span>
+            </div>
+          </div>
+
+          <div className="border border-slate-200 rounded-xl p-5 space-y-3">
+            <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">
+              Publish Date
+            </h3>
+            <div className="flex items-center gap-3">
+              <input
+                type="date"
+                value={form.publishedAt || ""}
+                onChange={(e) => set("publishedAt", e.target.value)}
+                className={inputCls(errors.publishedAt)}
+              />
+              <FieldError msg={errors.publishedAt} />
             </div>
           </div>
 

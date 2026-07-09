@@ -75,7 +75,9 @@ export default async function BlogsPage() {
 
                   <div className="p-6 space-y-3">
                     <p className="text-xs text-slate-400 font-medium uppercase tracking-widest">
-                      {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                      {new Date(
+                        blog.publishedAt || blog.createdAt,
+                      ).toLocaleDateString("en-US", {
                         month: "long",
                         day: "numeric",
                         year: "numeric",

@@ -95,7 +95,9 @@ export default async function AdminBlogsPage() {
                     </span>
                   </td>
                   <td className="px-4 py-4 hidden lg:table-cell text-slate-400 text-xs">
-                    {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                    {new Date(
+                      blog.publishedAt || blog.createdAt,
+                    ).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
