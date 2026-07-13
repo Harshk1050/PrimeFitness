@@ -289,24 +289,36 @@
     max-width: 100%;
     border-radius: 0.75rem;
     margin: 1.5rem 0;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
   }
   .blog-content hr {
     border: none;
     border-top: 2px solid #e2e8f0;
     margin: 2rem 0;
   }
-  .blog-content .ql-align-center { text-align: center; }
-  .blog-content .ql-align-right  { text-align: right; }
-  .blog-content .ql-align-justify { text-align: justify; }
-  .blog-content .ql-indent-1 { padding-left: 2rem; }
-  .blog-content .ql-indent-2 { padding-left: 4rem; }
-  .blog-content .ql-indent-3 { padding-left: 6rem; }
+  .blog-content .ql-align-center {
+    text-align: center;
+  }
+  .blog-content .ql-align-right {
+    text-align: right;
+  }
+  .blog-content .ql-align-justify {
+    text-align: justify;
+  }
+  .blog-content .ql-indent-1 {
+    padding-left: 2rem;
+  }
+  .blog-content .ql-indent-2 {
+    padding-left: 4rem;
+  }
+  .blog-content .ql-indent-3 {
+    padding-left: 6rem;
+  }
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  height: 6px;
-  width: 6px !important;
+  height: 4px;
+  width: 4px !important;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
