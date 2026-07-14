@@ -8,15 +8,6 @@ export const metadata: Metadata = {
     "Join us for a full day of adaptive fitness challenges, live demos, and community connection.",
 };
 
-const SCHEDULE = [
-  { time: "10:00 AM", title: "Doors Open & Registration" },
-  { time: "11:00 AM", title: "Adaptive Strength Showcase" },
-  { time: "12:30 PM", title: "Lunch & Networking" },
-  { time: "2:00 PM", title: "Para-Sport Demonstrations" },
-  { time: "3:00 PM", title: "Fundraiser Raffle & Awards" },
-  { time: "4:00 PM", title: "Closing Remarks" },
-];
-
 export default function EventPage() {
   return (
     <main className="min-h-screen bg-white text-slate-900">
@@ -102,7 +93,7 @@ export default function EventPage() {
       </div>
 
       <section className="py-16 px-6">
-        <div className="container mx-auto max-w-4xl grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="container mx-auto max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-12">
             <div>
               <h2 className="text-xl font-black uppercase tracking-tight text-slate-900 mb-4 flex items-center gap-3">
@@ -125,25 +116,161 @@ export default function EventPage() {
             <div>
               <h2 className="text-xl font-black uppercase tracking-tight text-slate-900 mb-6 flex items-center gap-3">
                 <span className="w-6 h-0.5 bg-green-500 inline-block" />
-                Schedule
+                Sponsorship Opportunities
               </h2>
-              <div className="space-y-3">
-                {SCHEDULE.map((item, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-4 p-4 rounded-xl border border-slate-100 bg-slate-50 hover:border-green-200 transition-colors"
-                  >
-                    <span className="text-green-600 font-black text-sm w-24 shrink-0">
-                      {item.time}
-                    </span>
-                    <span className="w-px h-5 bg-slate-200 shrink-0" />
-                    <span className="text-slate-800 font-medium text-sm">
-                      {item.title}
-                    </span>
-                  </div>
-                ))}
+
+              <div className="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm">
+                <table className="min-w-full border-collapse">
+                  <thead>
+                    <tr className="bg-slate-900 text-white">
+                      <th className="p-4 text-left font-bold border-r border-slate-700">
+                        Benefits
+                      </th>
+                      <th className="p-4 text-center border-r border-slate-700">
+                        <p className="font-black text-green-400">Presenting</p>
+                        <span className="text-sm">$2,500</span>
+                      </th>
+                      <th className="p-4 text-center border-r border-slate-700">
+                        <p className="font-black text-yellow-400">Gold</p>
+                        <span className="text-sm">$1,000</span>
+                      </th>
+                      <th className="p-4 text-center border-r border-slate-700">
+                        <p className="font-black text-slate-300">Silver</p>
+                        <span className="text-sm">$500</span>
+                      </th>
+                      <th className="p-4 text-center">
+                        <p className="font-black text-orange-400">Bronze</p>
+                        <span className="text-sm">$300</span>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="text-sm">
+                    <tr className="border-b">
+                      <td className="p-4 font-semibold bg-slate-50">
+                        Event Banner & Signage
+                      </td>
+                      <td className="p-4 text-center">
+                        Presenting Sponsor Logo
+                      </td>
+                      <td className="p-4 text-center">Event Signage</td>
+                      <td className="p-4 text-center">—</td>
+                      <td className="p-4 text-center">—</td>
+                    </tr>
+
+                    <tr className="border-b bg-slate-50">
+                      <td className="p-4 font-semibold">Website Recognition</td>
+                      <td className="p-4 text-center">Yes</td>
+                      <td className="p-4 text-center">Yes</td>
+                      <td className="p-4 text-center">Yes</td>
+                      <td className="p-4 text-center">—</td>
+                    </tr>
+
+                    <tr className="border-b">
+                      <td className="p-4 font-semibold">
+                        Social Media Recognition
+                      </td>
+                      <td className="p-4 text-center">Yes</td>
+                      <td className="p-4 text-center">Yes</td>
+                      <td className="p-4 text-center">Yes</td>
+                      <td className="p-4 text-center">—</td>
+                    </tr>
+
+                    <tr className="border-b bg-slate-50">
+                      <td className="p-4 font-semibold">Verbal Recognition</td>
+                      <td className="p-4 text-center">Yes</td>
+                      <td className="p-4 text-center">Yes</td>
+                      <td className="p-4 text-center">—</td>
+                      <td className="p-4 text-center">Yes</td>
+                    </tr>
+
+                    <tr>
+                      <td className="p-4 font-semibold">Sponsor Level</td>
+                      <td className="p-4 text-center font-bold text-green-600">
+                        Presenting
+                      </td>
+                      <td className="p-4 text-center font-bold text-yellow-600">
+                        Gold
+                      </td>
+                      <td className="p-4 text-center font-bold text-slate-500">
+                        Silver
+                      </td>
+                      <td className="p-4 text-center font-bold text-orange-600">
+                        Bronze
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
+
+            {/* // card paart */}
+            {/* <div className="mt-12">
+              <h2 className="text-2xl font-black uppercase tracking-tight text-slate-900 mb-6">
+                Sponsorship Opportunities
+              </h2>
+
+              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-2">
+
+                <div className="rounded-xl border border-green-500 bg-white p-6 shadow-sm">
+                  <p className="text-xs uppercase tracking-widest text-green-600 font-bold">
+                    Presenting Sponsor
+                  </p>
+
+                  <h3 className="mt-2 text-3xl font-black">$2,500</h3>
+
+                  <ul className="mt-6 space-y-3 text-sm text-slate-600">
+                    <li>• Company logo on event banner</li>
+                    <li>• Premium event signage</li>
+                    <li>• Website recognition</li>
+                    <li>• Social media promotion</li>
+                    <li>• Event announcements</li>
+                  </ul>
+                </div>
+
+
+                <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <p className="text-xs uppercase tracking-widest text-yellow-600 font-bold">
+                    Gold Sponsor
+                  </p>
+
+                  <h3 className="mt-2 text-3xl font-black">$1,000</h3>
+
+                  <ul className="mt-6 space-y-3 text-sm text-slate-600">
+                    <li>• Company logo on signage</li>
+                    <li>• Website recognition</li>
+                    <li>• Social media mention</li>
+                  </ul>
+                </div>
+
+
+                <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <p className="text-xs uppercase tracking-widest text-slate-500 font-bold">
+                    Silver Sponsor
+                  </p>
+
+                  <h3 className="mt-2 text-3xl font-black">$500</h3>
+
+                  <ul className="mt-6 space-y-3 text-sm text-slate-600">
+                    <li>• Website recognition</li>
+                    <li>• Social media recognition</li>
+                  </ul>
+                </div>
+
+
+                <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <p className="text-xs uppercase tracking-widest text-orange-600 font-bold">
+                    Bronze Sponsor
+                  </p>
+
+                  <h3 className="mt-2 text-3xl font-black">$300</h3>
+
+                  <ul className="mt-6 space-y-3 text-sm text-slate-600">
+                    <li>• Verbal recognition during the event</li>
+                  </ul>
+                </div>
+              </div>
+            </div> */}
           </div>
 
           <div className="lg:col-span-1">
