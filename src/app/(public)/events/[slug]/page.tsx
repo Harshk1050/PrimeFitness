@@ -1,4 +1,3 @@
-import { type ReactElement } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Corinthia } from "next/font/google";
@@ -7,6 +6,17 @@ import { Event } from "@/models/Event";
 import { HeartIcon, Lock } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import {
+  FEATURE_ICONS,
+  IconCalendar,
+  IconClock,
+  IconCrown,
+  IconHeart,
+  IconMail,
+  IconPin,
+  IconRun,
+  IconStar,
+} from "@/components/admin/events";
 
 const corinthia = Corinthia({ weight: ["400", "700"] });
 
@@ -30,258 +40,20 @@ export async function generateMetadata({
   const { slug } = await params;
   const event = (await Event.findOne({ slug, published: true }).lean()) as any;
   if (!event) return {};
+
   return {
-    title: `${event.title} | Prime Fitness Plus`,
-    description: event.subtitle || "",
+    title: event?.title || "Prime Fitness Plus",
+    description: event?.metaDescription || event?.subtitle,
+    alternates: {
+      canonical: event.canonicalUrl || "https://primefitnessplusllc.com/events",
+    },
+    openGraph: {
+      title: event.metaTitle || event.title,
+      description: event.metaDescription || event.shortDescription,
+      images: event.bannerImage ? [event.bannerImage] : [],
+    },
   };
 }
-
-function IconCalendar({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-      />
-    </svg>
-  );
-}
-function IconClock({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-      />
-    </svg>
-  );
-}
-function IconPin({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-      />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-      />
-    </svg>
-  );
-}
-function IconRun({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M13 4a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM9 20l2-6-2-2 1-5 4 1 2 3h3M6 12l3-2 3 2-2 3-4 1"
-      />
-    </svg>
-  );
-}
-function IconHeart({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 21s-6.7-4.35-9.3-8.2C.8 9.7 1.9 6 5.2 5c2-.6 3.9.3 4.8 2 1-1.7 2.8-2.6 4.8-2 3.3 1 4.4 4.7 2.5 7.8C18.7 16.65 12 21 12 21z" />
-    </svg>
-  );
-}
-function IconMail({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-      />
-    </svg>
-  );
-}
-function IconCrown({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M3 8l4 3 5-6 5 6 4-3-2 11H5L3 8zm2 13h14v2H5v-2z" />
-    </svg>
-  );
-}
-function IconStar({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z" />
-    </svg>
-  );
-}
-
-const FEATURE_ICONS: Record<string, ReactElement> = {
-  family: (
-    <svg
-      className="w-7 h-7"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.7}
-        d="M9 11a3 3 0 100-6 3 3 0 000 6zm7-1a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM2 20c0-3 3-5 7-5s7 2 7 5m1-8c2.8 0 5 1.6 5 4.5"
-      />
-    </svg>
-  ),
-  vendor: (
-    <svg
-      className="w-7 h-7"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.7}
-        d="M4 8l1-4h14l1 4M4 8v11a1 1 0 001 1h14a1 1 0 001-1V8M4 8h16M9 21v-6h6v6"
-      />
-    </svg>
-  ),
-  music: (
-    <svg
-      className="w-7 h-7"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.7}
-        d="M9 18V5l11-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm11-2a3 3 0 11-6 0 3 3 0 016 0z"
-      />
-    </svg>
-  ),
-  gift: (
-    <svg
-      className="w-7 h-7"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.7}
-        d="M20 12v9H4v-9M2 7h20v5H2V7zm10 0V22M12 7C10 3 6 3 6 6s3 1 6 1zm0 0c2-4 6-4 6-1s-3 1-6 1z"
-      />
-    </svg>
-  ),
-  map: (
-    <svg
-      className="w-7 h-7"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.7}
-        d="M9 20l-6 2V6l6-2 6 2 6-2v16l-6 2-6-2zm0-16v16m6-14v16"
-      />
-    </svg>
-  ),
-  kids: (
-    <svg
-      className="w-7 h-7"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <circle cx="12" cy="7" r="3" strokeWidth={1.7} />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.7}
-        d="M8 21c0-3 2-5 4-5s4 2 4 5"
-      />
-    </svg>
-  ),
-  puzzle: (
-    <svg
-      className="w-7 h-7"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.7}
-        d="M9 4h4v2.5a1.5 1.5 0 003 0V4h4v4h-2.5a1.5 1.5 0 000 3H20v4h-4v-2.5a1.5 1.5 0 00-3 0V15H9v-4H6.5a1.5 1.5 0 010-3H9V4z"
-      />
-    </svg>
-  ),
-  volunteer: (
-    <svg
-      className="w-7 h-7"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.7}
-        d="M12 21s-6-4.5-8.5-8C1.5 9.5 3 6 6.5 6c1.7 0 3 .9 3.5 2 .5-1.1 1.8-2 3.5-2 1 0 1.9.3 2.6.8M14 4l3 3-5 5-3-3M20 10l1 1-3 3-1-1"
-      />
-    </svg>
-  ),
-  crown: (
-    <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M3 8l4 3 5-6 5 6 4-3-2 11H5L3 8zm2 13h14v2H5v-2z" />
-    </svg>
-  ),
-  star: (
-    <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z" />
-    </svg>
-  ),
-};
 
 export default async function EventDetailPage({
   params,
@@ -293,8 +65,35 @@ export default async function EventDetailPage({
   const event = (await Event.findOne({ slug, published: true }).lean()) as any;
   if (!event) notFound();
 
+  const visibleFaqs = event.faqs?.filter(
+    (faq: any) => faq.question?.trim() || faq.answer?.trim(),
+  );
+
+  const faqJsonLd =
+    visibleFaqs && visibleFaqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: visibleFaqs.map((faq: any) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+            },
+          })),
+        }
+      : null;
+
   return (
     <main className="min-h-screen bg-white text-slate-900">
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+
       <div className="relative w-full min-h-[640px] bg-[#0f1f16] overflow-hidden">
         <Image
           src={event?.bannerImage || "/walk_run.jpg"}
@@ -339,6 +138,22 @@ export default async function EventDetailPage({
                 {event?.subtitle}
                 <IconHeart className="w-4 h-4" />
               </p>
+            )}
+
+            {event?.tags?.length > 0 && (
+              <>
+                <span>·</span>
+                <div className="flex gap-2 flex-wrap">
+                  {event?.tags.map((tag: string) => (
+                    <span
+                      key={tag}
+                      className="text-white border border-white rounded-xl p-1 px-3 text-sm"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </>
             )}
 
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-4 text-white text-sm">
@@ -437,11 +252,13 @@ export default async function EventDetailPage({
                   {event?.highlights?.map(
                     (h: { label: string; icon: string }) => (
                       <div
-                        key={h.icon}
-                        className="flex flex-col items-center gap-2 text-slate-700"
+                        key={h?.icon}
+                        className="flex flex-col items-center gap-2 text-slate-700  border border-[#e5d3ab] rounded-md p-2"
                       >
                         {FEATURE_ICONS[h.icon] ?? FEATURE_ICONS["star"]}
-                        <span className="text-xs font-semibold">{h.label}</span>
+                        <span className="text-xs font-semibold">
+                          {h?.label}
+                        </span>
                       </div>
                     ),
                   )}
@@ -481,7 +298,6 @@ export default async function EventDetailPage({
             )}
           </div>
 
-          {/* Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-8 rounded-2xl border border-[#f0a500]/40 overflow-hidden shadow-sm">
               <div className="bg-[#0f1f16] px-5 py-5">
@@ -528,7 +344,7 @@ export default async function EventDetailPage({
                   </p>
                   <div className="relative w-40 h-40 mx-auto rounded-xl overflow-hidden border border-slate-200">
                     <Image
-                      src="/paypal.jpg"
+                      src="/customer_paypal.jpg"
                       alt="Scan to donate QR code"
                       fill
                       className="object-cover"
@@ -570,28 +386,28 @@ export default async function EventDetailPage({
             </p>
 
             <div className="mt-10 grid sm:grid-cols-2 xl:grid-cols-4 gap-5 text-left">
-              {event?.sponsorTiers?.map((tier: any, index) => (
+              {event?.sponsorTiers?.map((tier: any) => (
                 <div
-                  key={tier.level}
+                  key={tier?.level}
                   className={`rounded-2xl group hover:text-black p-6 flex flex-col transition-all duration-300 bg-[#132a1d] hover:bg-white hover:border-[#f0a500]  border border-white/10 hover:border-[#f0a500]/70 hover:shadow-[0_0_25px_-5px_rgba(240,165,0,0.35)] `}
                 >
                   <span className="  text-white/70 group-hover:text-[#f0a500]">
-                    {tier.icon === "crown" ? <IconCrown /> : <IconStar />}
+                    {tier?.icon === "crown" ? <IconCrown /> : <IconStar />}
                   </span>
                   <p
                     className={`mt-3 text-xs font-black uppercase tracking-widest  text-white/70 group-hover:text-[#f0a500]`}
                   >
-                    {tier.level}
+                    {tier?.level}
                   </p>
                   <h3
                     className={`mt-1 text-2xl font-black text-white/80 group-hover:text-black `}
                   >
-                    {tier.price}
+                    {tier?.price}
                   </h3>
                   <ul
                     className={`mt-5 space-y-2 text-xs flex-1   text-white/80 group-hover:text-slate-600 `}
                   >
-                    {tier.perks.filter(Boolean).map((p: string) => (
+                    {tier?.perks.filter(Boolean).map((p: string) => (
                       <li key={p} className="flex items-start gap-1.5">
                         <span className="text-emerald-400   group-hover:text-[#f0a500] ">
                           ✓

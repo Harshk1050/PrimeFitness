@@ -56,6 +56,10 @@ type EventFormData = {
   faqs: Faq[];
   sponsorTiers: SponsorTier[];
   published: boolean;
+  tags: string[];
+  metaTitle: string;
+  canonicalUrl: string;
+  metaDescription: string;
 };
 
 interface Props {
@@ -96,6 +100,10 @@ export function EventForm({ initialData, mode }: Props) {
   const [previewObjectUrl, setPreviewObjectUrl] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
 
+  const [tagsInput, setTagsInput] = useState(
+    (initialData?.tags || []).join(", "),
+  );
+
   const [form, setForm] = useState<EventFormData>({
     bannerImage: initialData?.bannerImage || "",
     title: initialData?.title || "",
@@ -116,6 +124,11 @@ export function EventForm({ initialData, mode }: Props) {
       ? initialData.sponsorTiers
       : [{ ...EMPTY_TIER }],
     published: initialData?.published ?? false,
+
+    tags: initialData?.tags || [],
+    metaTitle: initialData?.metaTitle || "",
+    canonicalUrl: initialData?.canonicalUrl || "",
+    metaDescription: initialData?.metaDescription || "",
   });
 
   const set = (key: keyof EventFormData, value: any) =>
@@ -264,8 +277,12 @@ export function EventForm({ initialData, mode }: Props) {
       if (!form.eventDetails.location.trim())
         newErrors.location = "Location is required.";
 
-      if (!form.eventDetails.distance.trim())
-        newErrors.distance = "Distance is required.";
+      if (!form.metaTitle.trim())
+        newErrors.metaTitle = "Meta title should be 60 characters or less.";
+
+      if (!form.metaDescription.trim())
+        newErrors.metaDescription =
+          "Meta description should be 160 characters or less.";
 
       form.faqs.forEach((faq, index) => {
         const hasQuestion = faq.question.trim() !== "";
@@ -459,6 +476,39 @@ export function EventForm({ initialData, mode }: Props) {
                 placeholder="One Mile. One Community. Endless Possibilities."
                 className={inputCls(!!errors.subtitle)}
               />
+            </div>
+
+            <div>
+              <label className="block text-xs text-slate-500 mb-1">
+                Tags <span className="text-slate-400">(comma separated)</span>
+              </label>
+              <input
+                value={tagsInput}
+                onChange={(e) => setTagsInput(e.target.value)}
+                onBlur={(e) =>
+                  set(
+                    "tags",
+                    e.target.value
+                      .split(",")
+                      .map((t) => t.trim())
+                      .filter(Boolean),
+                  )
+                }
+                placeholder="fitness, adaptive, strength"
+                className={inputCls()}
+              />
+              {form.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {form.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="bg-green-50 text-green-700 text-xs px-2 py-1 rounded-full font-medium"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -789,6 +839,73 @@ export function EventForm({ initialData, mode }: Props) {
               <span className="text-sm font-medium text-slate-700">
                 {form.published ? "Published" : "Draft"}
               </span>
+            </div>
+          </div>
+
+          <div className="border border-slate-200 rounded-xl p-5 space-y-4">
+            <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">
+              SEO
+            </h3>
+
+            <div id="field-metaTitle">
+              <label className="block text-xs text-slate-500 mb-1">
+                Meta Title
+              </label>
+              <input
+                value={form.metaTitle}
+                onChange={(e) => set("metaTitle", e.target.value)}
+                placeholder={form.title || "Meta title..."}
+                className={inputCls(!!errors.metaTitle)}
+              />
+              <div className="flex justify-between items-center mt-1">
+                {errors.metaTitle && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {errors.metaTitle}
+                  </p>
+                )}
+                <span
+                  className={`text-xs ml-auto ${form.metaTitle.length > 60 ? "text-red-500 font-bold" : "text-slate-400"}`}
+                >
+                  {form.metaTitle.length}/60
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs text-slate-500 mb-1">
+                Canonical URL
+              </label>
+              <input
+                value={form.canonicalUrl}
+                onChange={(e) => set("canonicalUrl", e.target.value)}
+                placeholder="https://primefitnessplusllc.com/events/..."
+                className={inputCls()}
+              />
+            </div>
+
+            <div id="field-metaDescription">
+              <label className="block text-xs text-slate-500 mb-1">
+                Meta Description
+              </label>
+              <textarea
+                value={form.metaDescription}
+                onChange={(e) => set("metaDescription", e.target.value)}
+                rows={4}
+                placeholder="Meta description..."
+                className={inputCls(!!errors.metaDescription) + " resize-none"}
+              />
+              <div className="flex justify-between items-center mt-1">
+                {errors.metaDescription && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {errors.metaDescription}
+                  </p>
+                )}
+                <span
+                  className={`text-xs ml-auto ${form.metaDescription.length > 160 ? "text-red-500 font-bold" : "text-slate-400"}`}
+                >
+                  {form.metaDescription.length}/160
+                </span>
+              </div>
             </div>
           </div>
 

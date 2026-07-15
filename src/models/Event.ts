@@ -36,6 +36,10 @@ export interface IEvent {
   faqs: IEventFaq[];
   sponsorTiers: IEventSponsorTier[];
   published: boolean;
+  tags: string[];
+  metaTitle: string;
+  canonicalUrl: string;
+  metaDescription: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -74,6 +78,10 @@ const EventSchema = new Schema<IEvent>(
       default: [],
     },
     published: { type: Boolean, default: false },
+    tags: [{ type: String }],
+    metaTitle: { type: String, default: "" },
+    canonicalUrl: { type: String, default: "" },
+    metaDescription: { type: String, default: "" },
   },
   { timestamps: true },
 );
