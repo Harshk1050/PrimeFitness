@@ -28,11 +28,22 @@ type SponsorTier = {
   perks: string[];
 };
 type EventDetail = {
-  date: string;
+  date: string; //  "2026-10-10"
   time: string;
   location: string;
   distance: string;
 };
+
+function formatDisplayDate(iso: string) {
+  if (!iso) return "";
+  const d = new Date(iso + "T00:00:00");
+  return d.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
 
 type EventFormData = {
   bannerImage: string;
@@ -134,11 +145,19 @@ export function EventForm({ initialData, mode }: Props) {
     );
   };
 
-  const updateFaq = (i: number, field: keyof Faq, value: string) =>
+  const updateFaq = (i: number, field: keyof Faq, value: string) => {
     set(
       "faqs",
       form.faqs.map((f, idx) => (idx === i ? { ...f, [field]: value } : f)),
     );
+
+    setErrors((prev) => {
+      const copy = { ...prev };
+      delete copy[`faq-${i}-question`];
+      delete copy[`faq-${i}-answer`];
+      return copy;
+    });
+  };
   const addFaq = () =>
     set("faqs", [...form.faqs, { question: "", answer: "" }]);
   const removeFaq = (i: number) =>
@@ -221,8 +240,56 @@ export function EventForm({ initialData, mode }: Props) {
     };
   }, [previewObjectUrl]);
 
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const errorList = Object.values(errors);
+
+  const validateForm = (published: boolean) => {
+    const newErrors: Record<string, string> = {};
+
+    if (published) {
+      if (!form.bannerImage)
+        newErrors.bannerImage = "Banner image is required.";
+
+      if (!form.title.trim()) newErrors.title = "Title is required.";
+
+      if (!form.slug.trim()) newErrors.slug = "Slug is required.";
+
+      if (!form.about.trim() || form.about === "<p></p>")
+        newErrors.about = "About event is required.";
+
+      if (!form.eventDetails.date) newErrors.date = "Date is required.";
+
+      if (!form.eventDetails.time.trim()) newErrors.time = "Time is required.";
+
+      if (!form.eventDetails.location.trim())
+        newErrors.location = "Location is required.";
+
+      if (!form.eventDetails.distance.trim())
+        newErrors.distance = "Distance is required.";
+
+      form.faqs.forEach((faq, index) => {
+        const hasQuestion = faq.question.trim() !== "";
+        const hasAnswer = faq.answer.trim() !== "";
+
+        // If either field is filled, require both
+        if (hasQuestion && !hasAnswer) {
+          newErrors[`faq-${index}-answer`] = "Answer is required.";
+        }
+
+        if (hasAnswer && !hasQuestion) {
+          newErrors[`faq-${index}-question`] = "Question is required.";
+        }
+      });
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (published: boolean) => {
-    if (!form.title.trim()) return alert("Title is required.");
+    if (!validateForm(published)) return;
+
     setSaving(true);
     const payload = {
       ...form,
@@ -243,6 +310,14 @@ export function EventForm({ initialData, mode }: Props) {
     else alert("Failed to save. Please try again.");
   };
 
+  const clearError = (field: string) => {
+    setErrors((prev) => {
+      const copy = { ...prev };
+      delete copy[field];
+      return copy;
+    });
+  };
+
   return (
     <div className="space-y-8 py-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -250,6 +325,13 @@ export function EventForm({ initialData, mode }: Props) {
           {mode === "create" ? "New Event" : "Edit Event"}
         </h2>
         <div className="flex gap-3">
+          <button
+            onClick={() => router.back()}
+            className="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50"
+          >
+            Cancel
+          </button>
+
           <button
             disabled={saving}
             onClick={() => handleSubmit(false)}
@@ -269,6 +351,19 @@ export function EventForm({ initialData, mode }: Props) {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         <div className="xl:col-span-2 space-y-6">
+          {errorList.length > 0 && (
+            <div className="rounded-xl border border-red-300 bg-red-50 p-5">
+              <h3 className="mb-2 text-sm font-bold text-red-700">
+                Please fix the following errors before publishing:
+              </h3>
+
+              <ul className="list-disc space-y-1 pl-5 text-sm text-red-600">
+                {errorList.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="border border-slate-200 rounded-xl p-5 space-y-3">
             <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">
               Banner Image
@@ -283,6 +378,7 @@ export function EventForm({ initialData, mode }: Props) {
                 <button
                   onClick={() => {
                     set("bannerImage", "");
+                    clearError("bannerImage");
                     setImagePreview("");
                     if (previewObjectUrl) {
                       URL.revokeObjectURL(previewObjectUrl);
@@ -295,8 +391,8 @@ export function EventForm({ initialData, mode }: Props) {
                 </button>
               </div>
             )}
-            <label className="block">
-              <span className="block text-xs text-slate-500 mb-1">
+            <label className={"block"}>
+              <span className={"block text-xs text-slate-500 mb-1"}>
                 Upload Banner
               </span>
               <input
@@ -311,6 +407,10 @@ export function EventForm({ initialData, mode }: Props) {
                 </span>
               )}
             </label>
+
+            {errors.bannerImage && (
+              <p className="mt-1 text-xs text-red-500">{errors.bannerImage}</p>
+            )}
           </div>
 
           <div className="border border-slate-200 rounded-xl p-5 space-y-4">
@@ -321,11 +421,15 @@ export function EventForm({ initialData, mode }: Props) {
               <label className="block text-xs text-slate-500 mb-1">
                 Event Title *
               </label>
+
               <input
                 value={form.title}
-                onChange={(e) => handleTitleChange(e.target.value)}
+                onChange={(e) => {
+                  handleTitleChange(e.target.value);
+                  clearError("title");
+                }}
                 placeholder="Walk/Run for Autism Awareness"
-                className={inputCls(!form.title) + " font-medium"}
+                className={inputCls(!!errors.title)}
               />
             </div>
             <div>
@@ -334,7 +438,10 @@ export function EventForm({ initialData, mode }: Props) {
               </label>
               <input
                 value={form.slug}
-                onChange={(e) => set("slug", e.target.value)}
+                onChange={(e) => {
+                  set("slug", e.target.value);
+                  clearError("slug");
+                }}
                 placeholder="walk-run-autism-awareness-2026"
                 className={inputCls(!form.slug) + " font-mono text-slate-600"}
               />
@@ -345,9 +452,12 @@ export function EventForm({ initialData, mode }: Props) {
               </label>
               <input
                 value={form.subtitle}
-                onChange={(e) => set("subtitle", e.target.value)}
+                onChange={(e) => {
+                  set("subtitle", e.target.value);
+                  clearError("subtitle");
+                }}
                 placeholder="One Mile. One Community. Endless Possibilities."
-                className={inputCls()}
+                className={inputCls(!!errors.subtitle)}
               />
             </div>
           </div>
@@ -362,11 +472,19 @@ export function EventForm({ initialData, mode }: Props) {
                   Date
                 </label>
                 <input
+                  type="date"
                   value={form.eventDetails.date}
-                  onChange={(e) => setDetail("date", e.target.value)}
-                  placeholder="Saturday, October 10, 2026"
-                  className={inputCls()}
+                  onChange={(e) => {
+                    setDetail("date", e.target.value);
+                    clearError("date");
+                  }}
+                  className={inputCls(!!errors.date)}
                 />
+                {form.eventDetails.date && (
+                  <p className="text-xs text-slate-400 mt-1">
+                    {formatDisplayDate(form.eventDetails.date)}
+                  </p>
+                )}
               </div>
               <div>
                 <label className="block text-xs text-slate-500 mb-1">
@@ -374,9 +492,12 @@ export function EventForm({ initialData, mode }: Props) {
                 </label>
                 <input
                   value={form.eventDetails.time}
-                  onChange={(e) => setDetail("time", e.target.value)}
+                  onChange={(e) => {
+                    setDetail("time", e.target.value);
+                    clearError("time");
+                  }}
                   placeholder="10:00 AM – 4:00 PM"
-                  className={inputCls()}
+                  className={inputCls(!!errors.time)}
                 />
               </div>
               <div>
@@ -385,9 +506,12 @@ export function EventForm({ initialData, mode }: Props) {
                 </label>
                 <input
                   value={form.eventDetails.location}
-                  onChange={(e) => setDetail("location", e.target.value)}
+                  onChange={(e) => {
+                    setDetail("location", e.target.value);
+                    clearError("location");
+                  }}
                   placeholder="De Benedetti Park, Lodi, CA 95240"
-                  className={inputCls()}
+                  className={inputCls(!!errors.location)}
                 />
               </div>
               <div>
@@ -410,8 +534,14 @@ export function EventForm({ initialData, mode }: Props) {
             </h3>
             <RichTextEditor
               value={form.about}
-              onChange={(v) => set("about", v)}
+              onChange={(v) => {
+                set("about", v);
+                clearError("about");
+              }}
             />
+            {errors.about && (
+              <p className="mt-1 text-xs text-red-500">{errors.about}</p>
+            )}
           </div>
 
           <div className="border border-slate-200 rounded-xl p-5 space-y-4">
@@ -486,22 +616,31 @@ export function EventForm({ initialData, mode }: Props) {
                   <input
                     value={faq.question}
                     onChange={(e) => updateFaq(i, "question", e.target.value)}
-                    placeholder="Question"
-                    className={inputCls()}
+                    className={inputCls(!!errors[`faq-${i}-question`])}
                   />
+
+                  {errors[`faq-${i}-question`] && (
+                    <p className="mt-1 text-xs text-red-500">
+                      {errors[`faq-${i}-question`]}
+                    </p>
+                  )}
                   <textarea
                     value={faq.answer}
                     onChange={(e) => updateFaq(i, "answer", e.target.value)}
                     rows={3}
                     placeholder="Answer"
-                    className={inputCls() + " resize-none"}
+                    className={inputCls(!!errors[`faq-${i}-answer`])}
                   />
+                  {errors[`faq-${i}-answer`] && (
+                    <p className="mt-1 text-xs text-red-500">
+                      {errors[`faq-${i}-answer`]}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Sponsor Tiers */}
           <div className="border border-slate-200 rounded-xl p-5 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">

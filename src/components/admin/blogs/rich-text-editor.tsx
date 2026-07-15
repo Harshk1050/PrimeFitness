@@ -26,7 +26,7 @@ interface Props {
 
 export function RichTextEditor({ value, onChange }: Props) {
   return (
-    <div className="bg-white rounded-md">
+    <div className="bg-white rounded-md min-h-75">
       <ReactQuill
         theme="snow"
         value={value}

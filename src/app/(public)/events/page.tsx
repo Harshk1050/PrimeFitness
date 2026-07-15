@@ -10,6 +10,17 @@ export const metadata: Metadata = {
     "Join Prime Fitness Plus for upcoming community events, walks, runs, and more.",
 };
 
+function formatDate(iso: string) {
+  if (!iso) return "";
+  const d = new Date(iso + "T00:00:00");
+  return d.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 export default async function EventsPage() {
   await connectDB();
   const events = (await Event.find({ published: true })
@@ -69,7 +80,7 @@ export default async function EventsPage() {
                     <div className="p-5 space-y-2">
                       {event?.eventDetails?.date && (
                         <p className="text-xs font-bold text-[#f0a500] uppercase tracking-widest">
-                          {event?.eventDetails?.date}
+                          {formatDate(event.eventDetails.date)}
                         </p>
                       )}
                       <h2 className="font-black text-slate-900 text-lg leading-tight group-hover:text-[#0f1f16] transition-colors">

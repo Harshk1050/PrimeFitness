@@ -10,6 +10,17 @@ import type { Metadata } from "next";
 
 const corinthia = Corinthia({ weight: ["400", "700"] });
 
+function formatDate(iso: string) {
+  if (!iso) return "";
+  const d = new Date(iso + "T00:00:00");
+  return d.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -334,7 +345,7 @@ export default async function EventDetailPage({
               {event?.eventDetails?.date && (
                 <span className="flex items-center gap-2">
                   <IconCalendar className="w-8 h-8 text-[#f0a500]" />
-                  <span>{event?.eventDetails?.date}</span>
+                  <span>{formatDate(event.eventDetails.date)}</span>
                 </span>
               )}
               {event?.eventDetails?.time && (
@@ -397,7 +408,7 @@ export default async function EventDetailPage({
 
       <section className="py-16 px-6">
         <div className="container mx-auto max-w-6xl grid lg:grid-cols-3 gap-12">
-          <div className="lg:col-span-2 space-y-14">
+          <div className="lg:col-span-2 min-w-0 space-y-14">
             {event?.about && (
               <div>
                 <div className="flex flex-col mb-4">
@@ -406,8 +417,9 @@ export default async function EventDetailPage({
                   </h2>
                   <div className="w-20 h-0.5 bg-[#f0a500]" />
                 </div>
-                <div
-                  className="prose prose-slate text-wrap max-w-none text-slate-600 leading-relaxed"
+
+                <article
+                  className="blog-content max-w-none"
                   dangerouslySetInnerHTML={{ __html: event.about }}
                 />
               </div>
@@ -481,7 +493,7 @@ export default async function EventDetailPage({
                 {event?.eventDetails?.date && (
                   <div className="flex items-start gap-3">
                     <IconCalendar className="w-6 h-6 text-[#0f1f16]" />
-                    <span>{event?.eventDetails?.date}</span>
+                    <span>{formatDate(event.eventDetails.date)}</span>
                   </div>
                 )}
                 {event?.eventDetails?.time && (
@@ -558,44 +570,30 @@ export default async function EventDetailPage({
             </p>
 
             <div className="mt-10 grid sm:grid-cols-2 xl:grid-cols-4 gap-5 text-left">
-              {event?.sponsorTiers?.map((tier: any) => (
+              {event?.sponsorTiers?.map((tier: any, index) => (
                 <div
                   key={tier.level}
-                  className={`rounded-2xl p-6 flex flex-col ${
-                    tier.highlight
-                      ? "bg-white border-2 border-[#f0a500]"
-                      : "bg-white/[0.04] border border-white/10"
-                  }`}
+                  className={`rounded-2xl group hover:text-black p-6 flex flex-col transition-all duration-300 bg-[#132a1d] hover:bg-white hover:border-[#f0a500]  border border-white/10 hover:border-[#f0a500]/70 hover:shadow-[0_0_25px_-5px_rgba(240,165,0,0.35)] `}
                 >
-                  <span
-                    className={
-                      tier.highlight ? "text-[#f0a500]" : "text-white/70"
-                    }
-                  >
+                  <span className="  text-white/70 group-hover:text-[#f0a500]">
                     {tier.icon === "crown" ? <IconCrown /> : <IconStar />}
                   </span>
                   <p
-                    className={`mt-3 text-xs font-black uppercase tracking-widest ${tier.highlight ? "text-[#c8860a]" : "text-white/80"}`}
+                    className={`mt-3 text-xs font-black uppercase tracking-widest  text-white/70 group-hover:text-[#f0a500]`}
                   >
                     {tier.level}
                   </p>
                   <h3
-                    className={`mt-1 text-2xl font-black ${tier.highlight ? "text-slate-900" : "text-white"}`}
+                    className={`mt-1 text-2xl font-black text-white/80 group-hover:text-black `}
                   >
                     {tier.price}
                   </h3>
                   <ul
-                    className={`mt-5 space-y-2 text-xs flex-1 ${tier.highlight ? "text-slate-600" : "text-white/70"}`}
+                    className={`mt-5 space-y-2 text-xs flex-1   text-white/80 group-hover:text-slate-600 `}
                   >
                     {tier.perks.filter(Boolean).map((p: string) => (
                       <li key={p} className="flex items-start gap-1.5">
-                        <span
-                          className={
-                            tier.highlight
-                              ? "text-[#f0a500]"
-                              : "text-emerald-400"
-                          }
-                        >
+                        <span className="text-emerald-400   group-hover:text-[#f0a500] ">
                           ✓
                         </span>
                         {p}
@@ -604,17 +602,13 @@ export default async function EventDetailPage({
                   </ul>
                   <Link
                     href="mailto:info@primefitnessplusllc.com"
-                    className={`mt-6 flex items-center justify-center gap-2 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-colors ${
-                      tier.highlight
-                        ? "bg-[#f0a500] text-[#0f1f16] hover:bg-[#ffb81c]"
-                        : "bg-white text-[#0f1f16] hover:bg-white/90"
-                    }`}
+                    className={`mt-6 bg-white group-hover:bg-[#f0a500] text-[#0f1f16] hover:bg-white/90 flex items-center justify-center gap-2 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-colors `}
                   >
                     <IconMail className="w-3.5 h-3.5" /> Sponsor Now
                   </Link>
                   <Link
                     href="mailto:info@primefitnessplusllc.com"
-                    className="mt-2 text-center text-[11px] underline underline-offset-2 text-white/50 hover:text-white"
+                    className="mt-2 text-center text-[11px] underline underline-offset-2 text-white/50 group-hover:text-gray-800"
                   >
                     Email Us
                   </Link>
