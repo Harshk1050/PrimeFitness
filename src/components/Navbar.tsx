@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +33,7 @@ const Navbar = () => {
     { name: "About", href: "/about" },
     { name: "Trainers", href: "/trainers" },
     { name: "Blogs", href: "/blogs" },
-    { name: "Events", href: "/events" },
+    // { name: "Events", href: "/events" },
     { name: "Contact", href: "/contact" },
   ];
 
