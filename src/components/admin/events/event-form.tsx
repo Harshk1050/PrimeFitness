@@ -20,6 +20,16 @@ export const HIGHLIGHT_OPTIONS = [
 
 type Highlight = { label: string; icon: string };
 type Faq = { question: string; answer: string };
+
+export const CORE_VALUES = [
+  { label: "Inclusion", icon: "People" },
+  { label: "Awareness", icon: "Heart" },
+  { label: "Community", icon: "Community" },
+  { label: "Acceptance", icon: "Star" },
+] as const;
+
+type Core = { label: string; icon: string };
+
 type SponsorTier = {
   level: string;
   price: string;
@@ -53,6 +63,7 @@ type EventFormData = {
   eventDetails: EventDetail;
   about: string;
   highlights: Highlight[];
+  coreValues: Core[];
   faqs: Faq[];
   sponsorTiers: SponsorTier[];
   published: boolean;
@@ -117,6 +128,7 @@ export function EventForm({ initialData, mode }: Props) {
     },
     about: initialData?.about || "",
     highlights: initialData?.highlights?.length ? initialData.highlights : [],
+    coreValues: initialData?.coreValues?.length ? initialData.coreValues : [],
     faqs: initialData?.faqs?.length
       ? initialData.faqs
       : [{ question: "", answer: "" }],
@@ -155,6 +167,20 @@ export function EventForm({ initialData, mode }: Props) {
       exists
         ? form.highlights.filter((h) => h.icon !== option.icon)
         : [...form.highlights, option],
+    );
+  };
+
+  const toggleCoreValues = (option: Core) => {
+    const exists = form.coreValues.some(
+      (h) => h.icon.toLowerCase() === option.icon.toLowerCase(),
+    );
+    set(
+      "coreValues",
+      exists
+        ? form.coreValues.filter(
+            (h) => h.icon.toLowerCase() !== option.icon.toLowerCase(),
+          )
+        : [...form.coreValues, option],
     );
   };
 
@@ -252,6 +278,19 @@ export function EventForm({ initialData, mode }: Props) {
       if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
     };
   }, [previewObjectUrl]);
+
+  useEffect(() => {
+    if (!initialData) return;
+    setForm((prev) => ({
+      ...prev,
+      metaTitle: initialData.metaTitle || prev.metaTitle,
+      canonicalUrl: initialData.canonicalUrl || prev.canonicalUrl,
+      metaDescription: initialData.metaDescription || prev.metaDescription,
+      coreValues: initialData.coreValues?.length ? initialData.coreValues : prev.coreValues,
+      highlights: initialData.highlights?.length ? initialData.highlights : prev.highlights,
+    }));
+    if (initialData.tags) setTagsInput(initialData.tags.join(", "));
+  }, [initialData]);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const errorList = Object.values(errors);
@@ -591,6 +630,44 @@ export function EventForm({ initialData, mode }: Props) {
             />
             {errors.about && (
               <p className="mt-1 text-xs text-red-500">{errors.about}</p>
+            )}
+          </div>
+
+          <div className="border border-slate-200 rounded-xl p-5 space-y-4">
+            <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">
+              Core Values
+            </h3>
+            <p className="text-xs text-slate-400">
+              Select core values to display on the event page.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {CORE_VALUES.map((opt) => {
+                const active = form.coreValues.some(
+                  (v) => v.icon.toLowerCase() === opt.icon.toLowerCase(),
+                );
+                return (
+                  <button
+                    key={opt.icon}
+                    type="button"
+                    onClick={() => toggleCoreValues(opt)}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                      active
+                        ? "bg-green-50 border-green-500 text-green-700"
+                        : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span
+                      className={`w-2 h-2 rounded-full flex-shrink-0 ${active ? "bg-green-500" : "bg-slate-300"}`}
+                    />
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
+            {form.coreValues.length > 0 && (
+              <p className="text-xs text-slate-500">
+                Selected: {form.coreValues.map((h) => h.label).join(", ")}
+              </p>
             )}
           </div>
 

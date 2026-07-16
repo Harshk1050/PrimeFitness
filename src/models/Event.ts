@@ -5,6 +5,11 @@ export interface IEventHighlight {
   icon: string;
 }
 
+export interface IEventCoreValue {
+  label: string;
+  icon: string;
+}
+
 export interface IEventFaq {
   question: string;
   answer: string;
@@ -33,6 +38,7 @@ export interface IEvent {
   eventDetails: IEventDetail;
   about: string;
   highlights: IEventHighlight[];
+  coreValues: IEventCoreValue[];
   faqs: IEventFaq[];
   sponsorTiers: IEventSponsorTier[];
   published: boolean;
@@ -58,6 +64,10 @@ const EventSchema = new Schema<IEvent>(
     },
     about: { type: String, default: "" },
     highlights: {
+      type: [{ label: String, icon: String }],
+      default: [],
+    },
+    coreValues: {
       type: [{ label: String, icon: String }],
       default: [],
     },

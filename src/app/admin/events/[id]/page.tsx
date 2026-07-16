@@ -13,21 +13,28 @@ export default async function EditEventPage({
   const event = (await Event.findById(id).lean()) as any;
   if (!event) notFound();
 
+  const clean = JSON.parse(JSON.stringify(event));
+
   return (
     <EventForm
       mode="edit"
       initialData={{
-        _id: event._id.toString(),
-        bannerImage: event.bannerImage,
-        title: event.title,
-        slug: event.slug,
-        subtitle: event.subtitle,
-        eventDetails: event.eventDetails,
-        about: event.about,
-        highlights: event.highlights,
-        faqs: event.faqs,
-        sponsorTiers: event.sponsorTiers,
-        published: event.published,
+        _id: clean._id,
+        bannerImage: clean.bannerImage,
+        title: clean.title,
+        slug: clean.slug,
+        subtitle: clean.subtitle,
+        eventDetails: clean.eventDetails,
+        about: clean.about,
+        highlights: clean.highlights,
+        coreValues: clean.coreValues,
+        faqs: clean.faqs,
+        sponsorTiers: clean.sponsorTiers,
+        published: clean.published,
+        tags: clean.tags,
+        metaTitle: clean.metaTitle,
+        canonicalUrl: clean.canonicalUrl,
+        metaDescription: clean.metaDescription,
       }}
     />
   );
