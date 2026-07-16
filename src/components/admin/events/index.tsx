@@ -1,3 +1,4 @@
+import { Heart, Users } from "lucide-react";
 import { type ReactElement } from "react";
 
 export const IconCalendar = ({
@@ -260,5 +261,57 @@ export const FEATURE_ICONS: Record<string, ReactElement> = {
     <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z" />
     </svg>
+  ),
+};
+
+export const CORE_VALUE_ICONS: Record<string, ReactElement> = {
+  Inclusion: (
+    <div className="flex flex-col items-center gap-3">
+      <div className="border-2 border-[#f0a500] rounded-full p-4">
+        <Users className="w-10 h-10 text-[#f0a500]" />
+      </div>
+
+      <h3 className="font-semibold text-slate-700">Inclusion</h3>
+      <p className="text-sm text-slate-500">
+        Creating opportunities for everyone.
+      </p>
+    </div>
+  ),
+
+  Awareness: (
+    <div className="flex flex-col items-center">
+      <div className="border-2 border-[#f0a500] rounded-full p-4">
+        <Heart className="w-10 h-10 text-[#f0a500]" />
+      </div>
+      <h3 className="font-semibold text-slate-700">Awareness</h3>
+      <p className="text-sm text-slate-500">
+        Building understanding through community.
+      </p>
+    </div>
+  ),
+
+  Community: (
+    <div className="flex flex-col items-center">
+      <div className="border-2 border-[#f0a500] rounded-full p-4">
+        <Users className="w-10 h-10 text-[#f0a500]" />
+      </div>
+
+      <h3 className="font-semibold text-slate-700">Community</h3>
+      <p className="text-sm text-slate-500">
+        Supporting local families together.
+      </p>
+    </div>
+  ),
+
+  Acceptance: (
+    <div className="flex flex-col items-center">
+      <div className="border-2 border-[#f0a500] rounded-full p-4">
+        <IconStar className="w-10 h-10 text-[#f0a500]" />
+      </div>
+      <h3 className="font-semibold text-slate-700">Acceptance</h3>
+      <p className="text-sm text-slate-500">
+        Building understanding through community.
+      </p>
+    </div>
   ),
 };

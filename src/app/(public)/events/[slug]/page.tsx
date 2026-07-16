@@ -1,12 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Corinthia } from "next/font/google";
-import { connectDB } from "@/lib/mongoose";
-import { Event } from "@/models/Event";
-import { HeartIcon, Lock } from "lucide-react";
-import { notFound } from "next/navigation";
-import type { Metadata } from "next";
 import {
+  CORE_VALUE_ICONS,
   FEATURE_ICONS,
   IconCalendar,
   IconClock,
@@ -17,6 +10,15 @@ import {
   IconRun,
   IconStar,
 } from "@/components/admin/events";
+import { HeartIcon, Lock } from "lucide-react";
+
+import { Corinthia } from "next/font/google";
+import { Event } from "@/models/Event";
+import Image from "next/image";
+import Link from "next/link";
+import type { Metadata } from "next";
+import { connectDB } from "@/lib/mongoose";
+import { notFound } from "next/navigation";
 
 const corinthia = Corinthia({ weight: ["400", "700"] });
 
@@ -237,6 +239,29 @@ export default async function EventDetailPage({
                   className="blog-content max-w-none"
                   dangerouslySetInnerHTML={{ __html: event.about }}
                 />
+              </div>
+            )}
+
+            {event?.coreValues?.length > 0 && (
+              <div>
+                {/* <div className="flex flex-col mb-6">
+                  <h2 className="text-xl font-black uppercase mb-2 tracking-tight">
+                    Core Values
+                  </h2>
+                  <div className="w-20 h-0.5 bg-[#f0a500]" />
+                </div> */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-4 text-center">
+                  {event?.coreValues?.map(
+                    (h: { label: string; icon: string }) => (
+                      <div
+                        key={h?.icon}
+                        className="flex flex-col items-center gap-2 text-slate-700  border border-[#e5d3ab] rounded-md p-2"
+                      >
+                        {CORE_VALUE_ICONS[h.label]}
+                      </div>
+                    ),
+                  )}
+                </div>
               </div>
             )}
 
