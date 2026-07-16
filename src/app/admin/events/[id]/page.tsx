@@ -1,6 +1,6 @@
-import { connectDB } from "@/lib/mongoose";
 import { Event } from "@/models/Event";
 import { EventForm } from "@/components/admin/events/event-form";
+import { connectDB } from "@/lib/mongoose";
 import { notFound } from "next/navigation";
 
 export default async function EditEventPage({
@@ -21,6 +21,8 @@ export default async function EditEventPage({
       initialData={{
         _id: clean._id,
         bannerImage: clean.bannerImage,
+        paypalQrImage: clean?.paypalQrImage,
+        paypalHostedButtonId: clean?.paypalHostedButtonId,
         title: clean.title,
         slug: clean.slug,
         subtitle: clean.subtitle,

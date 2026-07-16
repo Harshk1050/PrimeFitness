@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { RichTextEditor } from "@/components/admin/blogs/rich-text-editor";
+import jsQR from "jsqr";
 import { useRouter } from "next/navigation";
 
 export const HIGHLIGHT_OPTIONS = [
@@ -55,8 +56,30 @@ function formatDisplayDate(iso: string) {
   });
 }
 
+async function decodeQrImage(file: File): Promise<string | null> {
+  const imageBitmap = await createImageBitmap(file);
+  const canvas = document.createElement("canvas");
+  canvas.width = imageBitmap.width;
+  canvas.height = imageBitmap.height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+  ctx.drawImage(imageBitmap, 0, 0);
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const result = jsQR(imageData.data, imageData.width, imageData.height);
+  return result?.data ?? null; // this is the decoded URL string
+}
+
+function extractHostedButtonId(qrText: string): string | null {
+  const match =
+    qrText.match(/hosted_button_id=([A-Za-z0-9]+)/) ||
+    qrText.match(/\/ncp\/payment\/([A-Za-z0-9]+)/);
+  return match?.[1] ?? null;
+}
+
 type EventFormData = {
   bannerImage: string;
+  paypalQrImage: string;
+  paypalHostedButtonId: string;
   title: string;
   slug: string;
   subtitle: string;
@@ -110,6 +133,8 @@ export function EventForm({ initialData, mode }: Props) {
   );
   const [previewObjectUrl, setPreviewObjectUrl] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [qrPreview, setQrPreview] = useState(initialData?.paypalQrImage || "");
+  const [uploadingQr, setUploadingQr] = useState(false);
 
   const [tagsInput, setTagsInput] = useState(
     (initialData?.tags || []).join(", "),
@@ -117,6 +142,8 @@ export function EventForm({ initialData, mode }: Props) {
 
   const [form, setForm] = useState<EventFormData>({
     bannerImage: initialData?.bannerImage || "",
+    paypalQrImage: initialData?.paypalQrImage || "",
+    paypalHostedButtonId: initialData?.paypalHostedButtonId || "",
     title: initialData?.title || "",
     slug: initialData?.slug || "",
     subtitle: initialData?.subtitle || "",
@@ -286,9 +313,17 @@ export function EventForm({ initialData, mode }: Props) {
       metaTitle: initialData.metaTitle || prev.metaTitle,
       canonicalUrl: initialData.canonicalUrl || prev.canonicalUrl,
       metaDescription: initialData.metaDescription || prev.metaDescription,
-      coreValues: initialData.coreValues?.length ? initialData.coreValues : prev.coreValues,
-      highlights: initialData.highlights?.length ? initialData.highlights : prev.highlights,
+      coreValues: initialData.coreValues?.length
+        ? initialData.coreValues
+        : prev.coreValues,
+      highlights: initialData.highlights?.length
+        ? initialData.highlights
+        : prev.highlights,
+      paypalQrImage: initialData.paypalQrImage || prev.paypalQrImage,
+      paypalHostedButtonId:
+        initialData.paypalHostedButtonId || prev.paypalHostedButtonId,
     }));
+    if (initialData.paypalQrImage) setQrPreview(initialData.paypalQrImage);
     if (initialData.tags) setTagsInput(initialData.tags.join(", "));
   }, [initialData]);
 
@@ -420,6 +455,99 @@ export function EventForm({ initialData, mode }: Props) {
               </ul>
             </div>
           )}
+          <div className="border border-slate-200 rounded-xl p-5 space-y-3">
+            <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">
+              PayPal QR Code
+            </h3>
+            {qrPreview && (
+              <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-slate-200">
+                <img
+                  src={qrPreview}
+                  alt="QR Preview"
+                  className="object-cover w-full h-full"
+                />
+                <button
+                  onClick={() => {
+                    set("paypalQrImage", "");
+                    setQrPreview("");
+                  }}
+                  className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded"
+                >
+                  Remove
+                </button>
+              </div>
+            )}
+            <label className="block">
+              <span className="block text-xs text-slate-500 mb-1">
+                Upload QR Code Image
+              </span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  setQrPreview(URL.createObjectURL(file));
+                  setUploadingQr(true);
+                  try {
+                    // Try to auto-extract the hosted button ID from the QR itself
+                    const qrText = await decodeQrImage(file);
+                    if (qrText) {
+                      const detectedId = extractHostedButtonId(qrText);
+                      if (detectedId) {
+                        set("paypalHostedButtonId", detectedId);
+                      } else {
+                        console.warn(
+                          "QR decoded but no button ID pattern found:",
+                          qrText,
+                        );
+                      }
+                    } else {
+                      console.warn("Could not decode QR code from image.");
+                    }
+
+                    const fd = new FormData();
+                    fd.append("file", file);
+                    const res = await fetch("/api/upload", {
+                      method: "POST",
+                      body: fd,
+                    });
+                    const data = await res.json();
+                    if (!res.ok || !data?.url) throw new Error();
+                    set("paypalQrImage", data.url);
+                    setQrPreview(data.url);
+                  } catch {
+                    alert("QR upload failed.");
+                  } finally {
+                    setUploadingQr(false);
+                  }
+                }}
+                className="block w-full text-sm text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-50 file:text-green-700 file:font-medium hover:file:bg-green-100"
+              />
+              {uploadingQr && (
+                <span className="text-xs text-slate-400 mt-1 block">
+                  Uploading...
+                </span>
+              )}
+            </label>
+            <div className="mt-3">
+              <label className="block text-xs text-slate-500 mb-1">
+                PayPal Hosted Button ID
+              </label>
+              <input
+                value={form.paypalHostedButtonId}
+                onChange={(e) => set("paypalHostedButtonId", e.target.value)}
+                placeholder="e.g. ATKQKS8R3QXX6"
+                className={inputCls()}
+              />
+              <p className="text-xs text-slate-400 mt-1">
+                {form.paypalHostedButtonId
+                  ? "Auto-detected from QR code — you can edit it if it looks wrong."
+                  : "Upload a QR code above to auto-fill, or enter it manually."}
+              </p>
+            </div>
+          </div>
+
           <div className="border border-slate-200 rounded-xl p-5 space-y-3">
             <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">
               Banner Image

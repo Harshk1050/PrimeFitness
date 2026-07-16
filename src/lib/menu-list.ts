@@ -1,4 +1,4 @@
-import { LayoutGrid, FileText, CalendarDays } from "lucide-react";
+import { LayoutGrid, FileText, CalendarDays, HeartHandshake } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 type Submenu = {
@@ -34,6 +34,11 @@ export function getMenuList(pathname: string): Group[] {
           href: "/admin/events",
           label: "Events",
           icon: CalendarDays,
+        },
+        {
+          href: "/admin/donations",
+          label: "Donations",
+          icon: HeartHandshake,
         },
       ],
     },

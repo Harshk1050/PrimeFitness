@@ -10,10 +10,11 @@ import {
   IconRun,
   IconStar,
 } from "@/components/admin/events";
-import { HeartIcon, Lock } from "lucide-react";
 
 import { Corinthia } from "next/font/google";
+import { DonateSection } from "@/components/DonateSection";
 import { Event } from "@/models/Event";
+import { HeartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -66,6 +67,8 @@ export default async function EventDetailPage({
   const { slug } = await params;
   const event = (await Event.findOne({ slug, published: true }).lean()) as any;
   if (!event) notFound();
+
+  console.log("event : ", event);
 
   const visibleFaqs = event.faqs?.filter(
     (faq: any) => faq.question?.trim() || faq.answer?.trim(),
@@ -192,13 +195,13 @@ export default async function EventDetailPage({
             </div>
 
             <div className="mt-9 flex flex-wrap gap-4">
-              <Link
-                href="/donate"
+              <a
+                href="#donate"
                 className="inline-flex items-center gap-2 bg-[#f0a500] text-[#0f1f16] px-8 py-3.5 rounded-full font-black text-sm uppercase tracking-widest hover:bg-[#ffb81c] transition-colors"
               >
                 Donate Now
                 <HeartIcon className="w-8 h-8 text-red-500" />
-              </Link>
+              </a>
               {event?.sponsorTiers?.length > 0 && (
                 <a
                   href="#sponsors"
@@ -362,31 +365,31 @@ export default async function EventDetailPage({
                   </div>
                 )}
 
-                <div className="border-t border-slate-100 pt-4 text-center">
-                  <p className="font-black uppercase text-sm">Scan to Donate</p>
-                  <p className="text-xs text-slate-500 mt-1 mb-4">
-                    Your donation helps create a more inclusive community.
-                  </p>
-                  <div className="relative w-40 h-40 mx-auto rounded-xl overflow-hidden border border-slate-200">
-                    <Image
-                      src="/customer_paypal.jpg"
-                      alt="Scan to donate QR code"
-                      fill
-                      className="object-cover"
-                    />
+                {event.paypalQrImage && (
+                  <div className="border-t border-slate-100 pt-4 text-center">
+                    <p className="font-black uppercase text-sm mb-2">
+                      Scan to Donate
+                    </p>
+                    <div className="relative w-40 h-40 mx-auto rounded-xl overflow-hidden border border-slate-200">
+                      <Image
+                        src={event.paypalQrImage}
+                        alt="Scan to donate QR code"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
 
-                <Link
-                  href="/donate"
-                  className="mt-2 flex items-center justify-center gap-2 bg-[#f0a500] text-[#0f1f16] px-6 py-3 rounded-full font-black text-xs uppercase tracking-widest hover:bg-[#ffb81c] transition-colors"
-                >
-                  <HeartIcon className="w-4 h-4" /> Donate Now
-                </Link>
-                <p className="flex items-center justify-center font-semibold gap-1.5 text-[12px] text-slate-500">
-                  <Lock className="w-4 h-4" />
-                  Secure Donations
-                </p>
+                <div id="donate" className="border-t border-slate-100 pt-4">
+                  {/* <DonateSection paypalQrImage={event.paypalQrImage || ""} /> */}
+                  <DonateSection
+                    eventId={event._id.toString()}
+                    eventTitle={event.title}
+                    eventSlug={event.slug}
+                    paypalHostedButtonId={event.paypalHostedButtonId || ""}
+                  />
+                </div>
               </div>
             </div>
           </div>

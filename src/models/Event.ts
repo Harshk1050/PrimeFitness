@@ -32,6 +32,8 @@ export interface IEventDetail {
 
 export interface IEvent {
   bannerImage: string;
+  paypalQrImage: string;
+  paypalHostedButtonId: string;
   title: string;
   slug: string;
   subtitle: string;
@@ -53,6 +55,8 @@ export interface IEvent {
 const EventSchema = new Schema<IEvent>(
   {
     bannerImage: { type: String, default: "" },
+    paypalQrImage: { type: String, default: "" },
+    paypalHostedButtonId: { type: String, default: "" },
     title: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
     subtitle: { type: String, default: "" },
