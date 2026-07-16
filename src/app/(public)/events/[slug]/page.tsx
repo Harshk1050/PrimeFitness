@@ -333,7 +333,7 @@ export default async function EventDetailPage({
                   Event Details
                 </h3>
               </div>
-              <div className="bg-white p-5 space-y-4 text-sm">
+              <div id="donate" className="bg-white p-5 space-y-4 text-sm">
                 {event?.eventDetails?.date && (
                   <div className="flex items-start gap-3">
                     <IconCalendar className="w-6 h-6 text-[#0f1f16]" />
@@ -381,7 +381,7 @@ export default async function EventDetailPage({
                   </div>
                 )}
 
-                <div id="donate" className="border-t border-slate-100 pt-4">
+                <div className="border-t border-slate-100 pt-4">
                   {/* <DonateSection paypalQrImage={event.paypalQrImage || ""} /> */}
                   <DonateSection
                     eventId={event._id.toString()}
