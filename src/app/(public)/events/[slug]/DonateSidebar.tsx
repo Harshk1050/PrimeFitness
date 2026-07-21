@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function DonateSidebar({ event, formattedDate }: Props) {
-  const [tab, setTab] = useState("paypal");
+  const [tab, setTab] = useState("zelle");
 
   return (
     <div className="sticky top-8 rounded-2xl border border-[#f0a500]/40 overflow-hidden shadow-sm">
@@ -62,6 +62,18 @@ export default function DonateSidebar({ event, formattedDate }: Props) {
         <div className="flex justify-center items-center gap-4  border-t border-gray-200 pt-4">
           <div>
             <button
+              onClick={() => setTab("zelle")}
+              className="text-white bg-purple-700 text-[12px] py-1 px-6 rounded-lg"
+            >
+              Zelle
+            </button>
+            <div
+              className={`${tab === "zelle" ? "block bg-purple-700 h-0.5 mt-1" : "opacity-0 h-0.5 mt-1"}`}
+            />
+          </div>
+
+          <div>
+            <button
               onClick={() => setTab("paypal")}
               className="text-white bg-sky-600 text-[12px] py-1 px-6 rounded-lg "
             >
@@ -70,17 +82,6 @@ export default function DonateSidebar({ event, formattedDate }: Props) {
 
             <div
               className={`${tab === "paypal" ? " bg-sky-600 h-0.5 mt-1" : "opacity-0 h-0.5 mt-1"}`}
-            />
-          </div>
-          <div>
-            <button
-              onClick={() => setTab("zelle")}
-              className="text-white bg-purple-700 text-[12px] py-1 px-6 rounded-lg"
-            >
-              Zelle
-            </button>
-            <div
-              className={`${tab === "zelle" ? "block bg-purple-700 h-0.5 mt-1" : "opacity-0 h-0.5 mt-1"}`}
             />
           </div>
         </div>
