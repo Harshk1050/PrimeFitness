@@ -20,6 +20,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { connectDB } from "@/lib/mongoose";
 import { notFound } from "next/navigation";
+import DonateSidebar from "./DonateSidebar";
 
 const corinthia = Corinthia({ weight: ["400", "700"] });
 
@@ -67,8 +68,6 @@ export default async function EventDetailPage({
   const { slug } = await params;
   const event = (await Event.findOne({ slug, published: true }).lean()) as any;
   if (!event) notFound();
-
-  console.log("event : ", event);
 
   const visibleFaqs = event.faqs?.filter(
     (faq: any) => faq.question?.trim() || faq.answer?.trim(),
@@ -247,12 +246,6 @@ export default async function EventDetailPage({
 
             {event?.coreValues?.length > 0 && (
               <div>
-                {/* <div className="flex flex-col mb-6">
-                  <h2 className="text-xl font-black uppercase mb-2 tracking-tight">
-                    Core Values
-                  </h2>
-                  <div className="w-20 h-0.5 bg-[#f0a500]" />
-                </div> */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-4 text-center">
                   {event?.coreValues?.map(
                     (h: { label: string; icon: string }) => (
@@ -326,72 +319,11 @@ export default async function EventDetailPage({
             )}
           </div>
 
-          <div className="lg:col-span-1">
-            <div className="sticky top-8 rounded-2xl border border-[#f0a500]/40 overflow-hidden shadow-sm">
-              <div className="bg-[#0f1f16] px-5 py-5">
-                <h3 className="text-white font-black text-center uppercase tracking-wide text-sm">
-                  Event Details
-                </h3>
-              </div>
-              <div id="donate" className="bg-white p-5 space-y-4 text-sm">
-                {event?.eventDetails?.date && (
-                  <div className="flex items-start gap-3">
-                    <IconCalendar className="w-6 h-6 text-[#0f1f16]" />
-                    <span>{formatDate(event.eventDetails.date)}</span>
-                  </div>
-                )}
-                {event?.eventDetails?.time && (
-                  <div className="flex items-start gap-3">
-                    <IconClock className="w-6 h-6 text-[#0f1f16]" />
-                    <span>{event?.eventDetails?.time}</span>
-                  </div>
-                )}
-                {event?.eventDetails?.location && (
-                  <div className="flex items-start gap-3">
-                    <IconPin className="w-6 h-6 text-[#0f1f16]" />
-                    <span>{event?.eventDetails?.location}</span>
-                  </div>
-                )}
-                {event?.eventDetails?.distance && (
-                  <div className="flex items-start gap-3">
-                    <IconRun className="w-8 h-6 text-[#0f1f16]" />
-                    <span>
-                      {event?.eventDetails?.distance}
-                      <br />
-                      <span className="text-slate-500 text-xs">
-                        All Ages &amp; Abilities Welcome!
-                      </span>
-                    </span>
-                  </div>
-                )}
-
-                {event.paypalQrImage && (
-                  <div className="border-t border-slate-100 pt-4 text-center">
-                    <p className="font-black uppercase text-sm mb-2">
-                      Scan to Donate
-                    </p>
-                    <div className="relative w-40 h-40 mx-auto rounded-xl overflow-hidden border border-slate-200">
-                      <Image
-                        src={event.paypalQrImage}
-                        alt="Scan to donate QR code"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <div className="border-t border-slate-100 pt-4">
-                  {/* <DonateSection paypalQrImage={event.paypalQrImage || ""} /> */}
-                  <DonateSection
-                    eventId={event._id.toString()}
-                    eventTitle={event.title}
-                    eventSlug={event.slug}
-                    paypalHostedButtonId={event.paypalHostedButtonId || ""}
-                  />
-                </div>
-              </div>
-            </div>
+          <div id="donate" className="lg:col-span-1">
+            <DonateSidebar
+              event={event}
+              formattedDate={event?.eventDetails?.date ? formatDate(event.eventDetails.date) : ""}
+            />
           </div>
         </div>
       </section>
