@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default async function BlogsPage() {
   await connectDB();
   const blogs = (await Blog.find({ published: true })
-    .sort({ createdAt: -1 })
+    .sort({ publishedAt: -1 })
     .lean()) as any[];
 
   return (
