@@ -13,14 +13,15 @@ import {
 
 import { Corinthia } from "next/font/google";
 import { DonateSection } from "@/components/DonateSection";
+import DonateSidebar from "./DonateSidebar";
 import { Event } from "@/models/Event";
+import { EventGallery } from "@/components/admin/gallery/event-gallery";
 import { HeartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { connectDB } from "@/lib/mongoose";
 import { notFound } from "next/navigation";
-import DonateSidebar from "./DonateSidebar";
 
 const corinthia = Corinthia({ weight: ["400", "700"] });
 
@@ -286,6 +287,7 @@ export default async function EventDetailPage({
                 </div>
               </div>
             )}
+            <EventGallery gallery={event?.gallery} />
 
             {event?.faqs?.length > 0 && (
               <div>
@@ -322,13 +324,16 @@ export default async function EventDetailPage({
           <div id="donate" className="lg:col-span-1">
             <DonateSidebar
               event={event}
-              formattedDate={event?.eventDetails?.date ? formatDate(event.eventDetails.date) : ""}
+              formattedDate={
+                event?.eventDetails?.date
+                  ? formatDate(event.eventDetails.date)
+                  : ""
+              }
             />
           </div>
         </div>
       </section>
 
-      {/* sponsors part */}
       {event?.sponsorTiers?.length > 0 && (
         <section id="sponsors" className="bg-[#0f1f16] py-16 px-6">
           <div className="container mx-auto max-w-6xl text-center">

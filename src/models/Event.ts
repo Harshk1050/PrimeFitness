@@ -30,6 +30,20 @@ export interface IEventDetail {
   distance: string;
 }
 
+export type EventGalleryMediaType = "image" | "video";
+export type EventGalleryVideoSource = "upload" | "external";
+
+export interface IEventGalleryItem {
+  mediaType: EventGalleryMediaType;
+  // Only meaningful when mediaType === "video".
+  videoSource: EventGalleryVideoSource;
+  fileUrl: string; // uploaded image, or uploaded video file
+  externalUrl: string; // pasted link (YouTube / Instagram / TikTok / Vimeo / Facebook / other)
+  provider: string; // derived from externalUrl, cached for convenience
+  thumbnail: string; // optional/auto thumbnail for external video cards
+  caption: string;
+}
+
 export interface IEvent {
   bannerImage: string;
   paypalQrImage: string;
@@ -43,6 +57,7 @@ export interface IEvent {
   coreValues: IEventCoreValue[];
   faqs: IEventFaq[];
   sponsorTiers: IEventSponsorTier[];
+  gallery: IEventGalleryItem[];
   published: boolean;
   tags: string[];
   metaTitle: string;
@@ -87,6 +102,28 @@ const EventSchema = new Schema<IEvent>(
           highlight: { type: Boolean, default: false },
           icon: { type: String, default: "star" },
           perks: [String],
+        },
+      ],
+      default: [],
+    },
+    gallery: {
+      type: [
+        {
+          mediaType: {
+            type: String,
+            enum: ["image", "video"],
+            default: "image",
+          },
+          videoSource: {
+            type: String,
+            enum: ["upload", "external"],
+            default: "upload",
+          },
+          fileUrl: { type: String, default: "" },
+          externalUrl: { type: String, default: "" },
+          provider: { type: String, default: "" },
+          thumbnail: { type: String, default: "" },
+          caption: { type: String, default: "" },
         },
       ],
       default: [],

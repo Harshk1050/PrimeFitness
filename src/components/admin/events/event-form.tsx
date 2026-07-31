@@ -1,129 +1,36 @@
 "use client";
 
+import {
+  CORE_VALUES,
+  Core,
+  EMPTY_GALLERY_ITEM,
+  EMPTY_TIER,
+  EventDetail,
+  EventFormData,
+  Faq,
+  GalleryItem,
+  GalleryMediaType,
+  GalleryVideoSource,
+  HIGHLIGHT_OPTIONS,
+  Highlight,
+  Props,
+  SponsorTier,
+  decodeQrImage,
+  extractHostedButtonId,
+  formatDisplayDate,
+  inputCls,
+  slugify,
+} from "./types";
+import {
+  detectProvider,
+  getAutoThumbnail,
+  getEmbedUrl,
+  providerLabel,
+} from "@/lib/media-embed";
 import { useEffect, useState } from "react";
 
 import { RichTextEditor } from "@/components/admin/blogs/rich-text-editor";
-import jsQR from "jsqr";
 import { useRouter } from "next/navigation";
-
-export const HIGHLIGHT_OPTIONS = [
-  { label: "Family Fun", icon: "family" },
-  { label: "Food Vendors", icon: "vendor" },
-  { label: "Music", icon: "music" },
-  { label: "Giveaways", icon: "gift" },
-  { label: "Local Resources", icon: "map" },
-  { label: "Kids Activities", icon: "kids" },
-  { label: "Autism Booths", icon: "puzzle" },
-  { label: "Volunteer", icon: "volunteer" },
-  { label: "Awards", icon: "crown" },
-  { label: "Raffle", icon: "star" },
-] as const;
-
-type Highlight = { label: string; icon: string };
-type Faq = { question: string; answer: string };
-
-export const CORE_VALUES = [
-  { label: "Inclusion", icon: "People" },
-  { label: "Awareness", icon: "Heart" },
-  { label: "Community", icon: "Community" },
-  { label: "Acceptance", icon: "Star" },
-] as const;
-
-type Core = { label: string; icon: string };
-
-type SponsorTier = {
-  level: string;
-  price: string;
-  highlight: boolean;
-  icon: string;
-  perks: string[];
-};
-type EventDetail = {
-  date: string; //  "2026-10-10"
-  time: string;
-  location: string;
-  distance: string;
-};
-
-function formatDisplayDate(iso: string) {
-  if (!iso) return "";
-  const d = new Date(iso + "T00:00:00");
-  return d.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
-async function decodeQrImage(file: File): Promise<string | null> {
-  const imageBitmap = await createImageBitmap(file);
-  const canvas = document.createElement("canvas");
-  canvas.width = imageBitmap.width;
-  canvas.height = imageBitmap.height;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return null;
-  ctx.drawImage(imageBitmap, 0, 0);
-  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  const result = jsQR(imageData.data, imageData.width, imageData.height);
-  return result?.data ?? null; // this is the decoded URL string
-}
-
-function extractHostedButtonId(qrText: string): string | null {
-  const match =
-    qrText.match(/hosted_button_id=([A-Za-z0-9]+)/) ||
-    qrText.match(/\/ncp\/payment\/([A-Za-z0-9]+)/);
-  return match?.[1] ?? null;
-}
-
-type EventFormData = {
-  bannerImage: string;
-  paypalQrImage: string;
-  paypalHostedButtonId: string;
-  title: string;
-  slug: string;
-  subtitle: string;
-  eventDetails: EventDetail;
-  about: string;
-  highlights: Highlight[];
-  coreValues: Core[];
-  faqs: Faq[];
-  sponsorTiers: SponsorTier[];
-  published: boolean;
-  tags: string[];
-  metaTitle: string;
-  canonicalUrl: string;
-  metaDescription: string;
-};
-
-interface Props {
-  initialData?: Partial<EventFormData> & { _id?: string };
-  mode: "create" | "edit";
-}
-
-function slugify(text: string) {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
-}
-
-function inputCls(error?: boolean) {
-  return `w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 transition-colors ${
-    error
-      ? "border-red-400 focus:ring-red-300 bg-red-50"
-      : "border-slate-200 focus:ring-green-500"
-  }`;
-}
-
-const EMPTY_TIER: SponsorTier = {
-  level: "",
-  price: "",
-  highlight: false,
-  icon: "star",
-  perks: [""],
-};
 
 export function EventForm({ initialData, mode }: Props) {
   const router = useRouter();
@@ -135,6 +42,9 @@ export function EventForm({ initialData, mode }: Props) {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [qrPreview, setQrPreview] = useState(initialData?.paypalQrImage || "");
   const [uploadingQr, setUploadingQr] = useState(false);
+  const [galleryUploading, setGalleryUploading] = useState<
+    Record<number, boolean>
+  >({});
 
   const [tagsInput, setTagsInput] = useState(
     (initialData?.tags || []).join(", "),
@@ -162,6 +72,7 @@ export function EventForm({ initialData, mode }: Props) {
     sponsorTiers: initialData?.sponsorTiers?.length
       ? initialData.sponsorTiers
       : [{ ...EMPTY_TIER }],
+    gallery: initialData?.gallery?.length ? initialData.gallery : [],
     published: initialData?.published ?? false,
 
     tags: initialData?.tags || [],
@@ -274,6 +185,43 @@ export function EventForm({ initialData, mode }: Props) {
       form.sponsorTiers.filter((_, idx) => idx !== i),
     );
 
+  // Gallery
+
+  const updateGalleryItem = (i: number, patch: Partial<GalleryItem>) =>
+    setForm((prev) => ({
+      ...prev,
+      gallery: prev.gallery.map((g, idx) =>
+        idx === i ? { ...g, ...patch } : g,
+      ),
+    }));
+  const addGalleryItem = () =>
+    setForm((prev) => ({
+      ...prev,
+      gallery: [...prev.gallery, { ...EMPTY_GALLERY_ITEM }],
+    }));
+  const removeGalleryItem = (i: number) =>
+    setForm((prev) => ({
+      ...prev,
+      gallery: prev.gallery.filter((_, idx) => idx !== i),
+    }));
+  const handleGalleryFileUpload = async (i: number, file: File) => {
+    const previewUrl = URL.createObjectURL(file);
+    updateGalleryItem(i, { fileUrl: previewUrl });
+    setGalleryUploading((prev) => ({ ...prev, [i]: true }));
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok || !data?.url) throw new Error("Upload failed");
+      updateGalleryItem(i, { fileUrl: data.url });
+    } catch {
+      alert("Upload failed. Please try again.");
+    } finally {
+      setGalleryUploading((prev) => ({ ...prev, [i]: false }));
+    }
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -319,6 +267,7 @@ export function EventForm({ initialData, mode }: Props) {
       highlights: initialData.highlights?.length
         ? initialData.highlights
         : prev.highlights,
+      gallery: initialData.gallery?.length ? initialData.gallery : prev.gallery,
       paypalQrImage: initialData.paypalQrImage || prev.paypalQrImage,
       paypalHostedButtonId:
         initialData.paypalHostedButtonId || prev.paypalHostedButtonId,
@@ -371,6 +320,23 @@ export function EventForm({ initialData, mode }: Props) {
           newErrors[`faq-${index}-question`] = "Question is required.";
         }
       });
+
+      form.gallery.forEach((item, index) => {
+        if (item.mediaType === "image" && !item.fileUrl) {
+          newErrors[`gallery-${index}`] =
+            "Upload an image or remove this item.";
+        }
+        if (item.mediaType === "video") {
+          if (item.videoSource === "upload" && !item.fileUrl) {
+            newErrors[`gallery-${index}`] =
+              "Upload a video file or remove this item.";
+          }
+          if (item.videoSource === "external" && !item.externalUrl.trim()) {
+            newErrors[`gallery-${index}`] =
+              "Paste a video URL or remove this item.";
+          }
+        }
+      });
     }
 
     setErrors(newErrors);
@@ -387,6 +353,30 @@ export function EventForm({ initialData, mode }: Props) {
       published,
       faqs: form.faqs.filter((f) => f.question.trim() || f.answer.trim()),
       sponsorTiers: form.sponsorTiers.filter((t) => t.level.trim()),
+      gallery: form.gallery
+        .filter((g) =>
+          g.mediaType === "image"
+            ? !!g.fileUrl
+            : g.videoSource === "upload"
+              ? !!g.fileUrl
+              : g.externalUrl.trim(),
+        )
+        .map((g) => {
+          if (
+            g.mediaType === "video" &&
+            g.videoSource === "external" &&
+            g.externalUrl
+          ) {
+            const provider = detectProvider(g.externalUrl);
+            return {
+              ...g,
+              provider,
+              thumbnail:
+                g.thumbnail || getAutoThumbnail(g.externalUrl, provider) || "",
+            };
+          }
+          return g;
+        }),
     };
     const url =
       mode === "edit" ? `/api/events/${initialData?._id}` : "/api/events";
@@ -490,7 +480,6 @@ export function EventForm({ initialData, mode }: Props) {
                   setQrPreview(URL.createObjectURL(file));
                   setUploadingQr(true);
                   try {
-                    // Try to auto-extract the hosted button ID from the QR itself
                     const qrText = await decodeQrImage(file);
                     if (qrText) {
                       const detectedId = extractHostedButtonId(qrText);
@@ -838,6 +827,241 @@ export function EventForm({ initialData, mode }: Props) {
           <div className="border border-slate-200 rounded-xl p-5 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">
+                Gallery
+              </h3>
+              <button
+                type="button"
+                onClick={addGalleryItem}
+                className="text-sm font-semibold text-green-600 hover:text-green-700"
+              >
+                + Add Media
+              </button>
+            </div>
+            <p className="text-xs text-slate-400">
+              Add photos or videos for this event's gallery. Videos can be an
+              uploaded file or a link (YouTube, Instagram, TikTok, Vimeo,
+              Facebook).
+            </p>
+            <div className="space-y-5 max-h-80 overflow-y-auto! mini-custom-scrollbar">
+              {form.gallery.map((item, i) => {
+                const provider = item.externalUrl
+                  ? detectProvider(item.externalUrl)
+                  : "";
+                const embedUrl =
+                  item.mediaType === "video" &&
+                  item.videoSource === "external" &&
+                  item.externalUrl
+                    ? getEmbedUrl(item.externalUrl, provider)
+                    : null;
+
+                return (
+                  <div
+                    key={i}
+                    className="rounded-lg border border-slate-200 p-4 space-y-3"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                        Item {i + 1}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => removeGalleryItem(i)}
+                        className="text-xs font-medium text-red-500 hover:text-red-600"
+                      >
+                        Remove
+                      </button>
+                    </div>
+
+                    {/* Media type */}
+                    <div className="flex gap-2">
+                      {(["image", "video"] as GalleryMediaType[]).map(
+                        (type) => (
+                          <button
+                            key={type}
+                            type="button"
+                            onClick={() => {
+                              updateGalleryItem(i, {
+                                mediaType: type,
+                                fileUrl: "",
+                                externalUrl: "",
+                              });
+                              clearError(`gallery-${i}`);
+                            }}
+                            className={`flex-1 px-3 py-1.5 rounded-lg border text-xs font-semibold capitalize transition-colors ${
+                              item.mediaType === type
+                                ? "bg-green-50 border-green-500 text-green-700"
+                                : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                            }`}
+                          >
+                            {type}
+                          </button>
+                        ),
+                      )}
+                    </div>
+
+                    {/* Image upload */}
+                    {item.mediaType === "image" && (
+                      <div className="space-y-2">
+                        {item.fileUrl && (
+                          <div className="relative w-32 h-32 rounded-lg overflow-hidden border border-slate-200">
+                            <img
+                              src={item.fileUrl}
+                              alt={item.caption}
+                              className="object-cover w-full h-full"
+                            />
+                          </div>
+                        )}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              handleGalleryFileUpload(i, file);
+                              clearError(`gallery-${i}`);
+                            }
+                          }}
+                          className="block w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-green-50 file:text-green-700 file:font-medium hover:file:bg-green-100"
+                        />
+                        {galleryUploading[i] && (
+                          <span className="text-xs text-slate-400 block">
+                            Uploading...
+                          </span>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Video */}
+                    {item.mediaType === "video" && (
+                      <div className="space-y-3">
+                        <div className="flex gap-2">
+                          {(["upload", "external"] as GalleryVideoSource[]).map(
+                            (src) => (
+                              <button
+                                key={src}
+                                type="button"
+                                onClick={() => {
+                                  updateGalleryItem(i, {
+                                    videoSource: src,
+                                    fileUrl: "",
+                                    externalUrl: "",
+                                  });
+                                  clearError(`gallery-${i}`);
+                                }}
+                                className={`flex-1 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
+                                  item.videoSource === src
+                                    ? "bg-green-50 border-green-500 text-green-700"
+                                    : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                                }`}
+                              >
+                                {src === "upload"
+                                  ? "Upload File"
+                                  : "Paste Link"}
+                              </button>
+                            ),
+                          )}
+                        </div>
+
+                        {item.videoSource === "upload" && (
+                          <div className="space-y-2">
+                            {item.fileUrl && (
+                              <video
+                                src={item.fileUrl}
+                                controls
+                                className="w-full h-40 rounded-lg border border-slate-200 bg-black"
+                              />
+                            )}
+                            <input
+                              type="file"
+                              accept="video/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  handleGalleryFileUpload(i, file);
+                                  clearError(`gallery-${i}`);
+                                }
+                              }}
+                              className="block w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-green-50 file:text-green-700 file:font-medium hover:file:bg-green-100"
+                            />
+                            {galleryUploading[i] && (
+                              <span className="text-xs text-slate-400 block">
+                                Uploading...
+                              </span>
+                            )}
+                          </div>
+                        )}
+
+                        {item.videoSource === "external" && (
+                          <div className="space-y-2">
+                            <input
+                              value={item.externalUrl}
+                              onChange={(e) => {
+                                updateGalleryItem(i, {
+                                  externalUrl: e.target.value,
+                                });
+                                clearError(`gallery-${i}`);
+                              }}
+                              placeholder="https://www.youtube.com/watch?v=..."
+                              className={inputCls()}
+                            />
+                            {item.externalUrl && (
+                              <p className="text-xs text-slate-500">
+                                Detected:{" "}
+                                <span className="font-semibold">
+                                  {providerLabel(provider as any) || "Link"}
+                                </span>
+                              </p>
+                            )}
+                            {embedUrl ? (
+                              <div className="rounded-lg overflow-hidden border border-slate-200 bg-black aspect-video">
+                                <iframe
+                                  src={embedUrl}
+                                  className="w-full h-full"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                />
+                              </div>
+                            ) : (
+                              item.externalUrl && (
+                                <p className="text-xs text-slate-400">
+                                  No inline preview for this link — it'll show
+                                  as a "Watch on{" "}
+                                  {providerLabel(provider as any) || "site"}"
+                                  card instead.
+                                </p>
+                              )
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    <input
+                      value={item.caption}
+                      onChange={(e) =>
+                        updateGalleryItem(i, { caption: e.target.value })
+                      }
+                      placeholder="Caption (optional)"
+                      className={inputCls()}
+                    />
+
+                    {errors[`gallery-${i}`] && (
+                      <p className="text-xs text-red-500">
+                        {errors[`gallery-${i}`]}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+              {form.gallery.length === 0 && (
+                <p className="text-xs text-slate-400">No media added yet.</p>
+              )}
+            </div>
+          </div>
+
+          <div className="border border-slate-200 rounded-xl p-5 space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">
                 FAQs
               </h3>
               <button
@@ -848,7 +1072,7 @@ export function EventForm({ initialData, mode }: Props) {
                 + Add FAQ
               </button>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-4 max-h-80 overflow-y-auto! mini-custom-scrollbar">
               {form.faqs.map((faq, i) => (
                 <div
                   key={i}
@@ -909,7 +1133,7 @@ export function EventForm({ initialData, mode }: Props) {
                 + Add Tier
               </button>
             </div>
-            <div className="space-y-5">
+            <div className="space-y-5 max-h-80 overflow-y-auto! mini-custom-scrollbar">
               {form.sponsorTiers.map((tier, i) => (
                 <div
                   key={i}
@@ -1095,7 +1319,7 @@ export function EventForm({ initialData, mode }: Props) {
               <textarea
                 value={form.metaDescription}
                 onChange={(e) => set("metaDescription", e.target.value)}
-                rows={4}
+                rows={8}
                 placeholder="Meta description..."
                 className={inputCls(!!errors.metaDescription) + " resize-none"}
               />

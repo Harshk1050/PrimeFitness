@@ -329,3 +329,17 @@
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+
+.mini-custom-scrollbar::-webkit-scrollbar {
+  height: 3px;
+  width: 3px !important;
+}
+
+.mini-custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 8px;
+}
+
+.mini-custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}

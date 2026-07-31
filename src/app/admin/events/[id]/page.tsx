@@ -27,6 +27,7 @@ export default async function EditEventPage({
         slug: clean.slug,
         subtitle: clean.subtitle,
         eventDetails: clean.eventDetails,
+        gallery: clean.gallery,
         about: clean.about,
         highlights: clean.highlights,
         coreValues: clean.coreValues,
