@@ -21,7 +21,7 @@ export function SheetMenu({ session }: { session: Session }) {
       </SheetTrigger>
 
       <SheetContent
-        className="sm:w-72 px-3 h-full flex flex-col border border-red-500 custom-scrollbar"
+        className="sm:w-72 px-3 h-full flex flex-col  custom-scrollbar"
         side="left"
       >
         <SheetHeader>

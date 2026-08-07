@@ -12,7 +12,6 @@ import {
 } from "@/components/admin/events";
 
 import { Corinthia } from "next/font/google";
-import { DonateSection } from "@/components/DonateSection";
 import DonateSidebar from "./DonateSidebar";
 import { Event } from "@/models/Event";
 import { EventGallery } from "@/components/admin/gallery/event-gallery";
@@ -20,6 +19,7 @@ import { HeartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import ParticipateButton from "./participate-button";
 import { connectDB } from "@/lib/mongoose";
 import { notFound } from "next/navigation";
 
@@ -210,6 +210,12 @@ export default async function EventDetailPage({
                   Become a Sponsor
                 </a>
               )}
+
+              <ParticipateButton
+                slug={event.slug}
+                eventId={event._id}
+                eventTitle={event.title}
+              />
             </div>
           </div>
 
