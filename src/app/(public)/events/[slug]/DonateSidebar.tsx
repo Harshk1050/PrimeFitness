@@ -71,7 +71,7 @@ export default function DonateSidebar({ event, formattedDate }: Props) {
               className={`${tab === "zelle" ? "block bg-purple-700 h-0.5 mt-1" : "opacity-0 h-0.5 mt-1"}`}
             />
           </div>
-
+          {/*
           <div>
             <button
               onClick={() => setTab("paypal")}
@@ -83,7 +83,7 @@ export default function DonateSidebar({ event, formattedDate }: Props) {
             <div
               className={`${tab === "paypal" ? " bg-sky-600 h-0.5 mt-1" : "opacity-0 h-0.5 mt-1"}`}
             />
-          </div>
+          </div> */}
         </div>
 
         {tab === "paypal" ? (

@@ -445,7 +445,7 @@ export function EventForm({ initialData, mode }: Props) {
               </ul>
             </div>
           )}
-          <div className="border border-slate-200 rounded-xl p-5 space-y-3">
+          {/* <div className="border border-slate-200 rounded-xl p-5 space-y-3">
             <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">
               PayPal QR Code
             </h3>
@@ -535,7 +535,7 @@ export function EventForm({ initialData, mode }: Props) {
                   : "Upload a QR code above to auto-fill, or enter it manually."}
               </p>
             </div>
-          </div>
+          </div> */}
 
           <div className="border border-slate-200 rounded-xl p-5 space-y-3">
             <h3 className="font-bold text-sm uppercase tracking-widest text-slate-500">
