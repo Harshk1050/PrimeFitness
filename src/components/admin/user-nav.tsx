@@ -13,15 +13,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import type { Session } from "next-auth";
+import { signOut } from "next-auth/react";
 
 export function UserNav({ session }: { session: Session }) {
   const user = session.user;
   const initials = user?.name ? user.name.slice(0, 2).toUpperCase() : "AD";
 
   function handleSignOut() {
-    fetch("/api/auth/signout", { method: "POST" }).then(() => {
-      window.location.href = "/admin/login";
-    });
+    signOut({ callbackUrl: "/admin/login" });
   }
 
   return (
