@@ -35,7 +35,7 @@ export function Sidebar({ isOpen, setIsOpen, session }: SidebarProps) {
           className={cn("mb-4 flex items-center ", !isOpen && "justify-center")}
         >
           <Image
-            src="/FullLogo-Photoroom.svg"
+            src="/logo.svg"
             alt="Prime Fitness"
             width={66}
             height={52}

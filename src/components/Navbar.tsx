@@ -49,7 +49,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-4 group">
           <Image
-            src="/FullLogo-Photoroom.svg"
+            src="/logo.svg"
             alt="Prime Fitness"
             width={80}
             height={80}

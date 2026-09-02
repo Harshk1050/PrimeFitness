@@ -27,7 +27,7 @@ export function SheetMenu({ session }: { session: Session }) {
         <SheetHeader>
           <SheetTitle className="font-bold text-lg">
             <img
-              src="/FullLogo-Photoroom.svg"
+              src="/logo.svg"
               alt="Prime Fitness logo"
               className="inline-block h-10 w-10 object-contain"
             />
