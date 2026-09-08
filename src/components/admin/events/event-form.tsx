@@ -214,8 +214,10 @@ export function EventForm({ initialData, mode }: Props) {
       const res = await fetch("/api/upload", { method: "POST", body: fd });
       const data = await res.json();
       if (!res.ok || !data?.url) throw new Error("Upload failed");
+      URL.revokeObjectURL(previewUrl);
       updateGalleryItem(i, { fileUrl: data.url });
     } catch {
+      URL.revokeObjectURL(previewUrl);
       alert("Upload failed. Please try again.");
     } finally {
       setGalleryUploading((prev) => ({ ...prev, [i]: false }));
@@ -346,6 +348,10 @@ export function EventForm({ initialData, mode }: Props) {
 
   const handleSubmit = async (published: boolean) => {
     if (!validateForm(published)) return;
+    if (Object.values(galleryUploading).some(Boolean) || uploadingImage) {
+      alert("Please wait for uploads to finish before saving.");
+      return;
+    }
 
     setSaving(true);
     const payload = {
@@ -356,9 +362,9 @@ export function EventForm({ initialData, mode }: Props) {
       gallery: form.gallery
         .filter((g) =>
           g.mediaType === "image"
-            ? !!g.fileUrl
+            ? !!g.fileUrl && !g.fileUrl.startsWith("blob:")
             : g.videoSource === "upload"
-              ? !!g.fileUrl
+              ? !!g.fileUrl && !g.fileUrl.startsWith("blob:")
               : g.externalUrl.trim(),
         )
         .map((g) => {
@@ -966,6 +972,7 @@ export function EventForm({ initialData, mode }: Props) {
                           <div className="space-y-2">
                             {item.fileUrl && (
                               <video
+                                key={item.fileUrl}
                                 src={item.fileUrl}
                                 controls
                                 className="w-full h-40 rounded-lg border border-slate-200 bg-black"
