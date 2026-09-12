@@ -90,6 +90,10 @@ export default async function EventDetailPage({
         }
       : null;
 
+  const cleanEventContent = event?.about
+    ?.replace(/&nbsp;/g, " ")
+    ?.replace(/\u00a0/g, " ");
+
   return (
     <main className="min-h-screen bg-white text-slate-900">
       {faqJsonLd && (
@@ -246,7 +250,7 @@ export default async function EventDetailPage({
 
                 <article
                   className="blog-content max-w-none"
-                  dangerouslySetInnerHTML={{ __html: event.about }}
+                  dangerouslySetInnerHTML={{ __html: cleanEventContent || "" }}
                 />
               </div>
             )}

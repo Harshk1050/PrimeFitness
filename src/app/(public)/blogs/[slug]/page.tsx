@@ -40,6 +40,10 @@ export default async function BlogPostPage({ params }: Props) {
     .limit(3)
     .lean()) as any[];
 
+  const cleanBlogContent = blog?.content
+    ?.replace(/&nbsp;/g, " ")
+    ?.replace(/\u00a0/g, " ");
+
   return (
     <main className="min-h-screen bg-slate-50">
       <section className="relative bg-slate-900 pt-28 pb-16 px-6 overflow-hidden">
@@ -124,7 +128,9 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="container mx-auto max-w-4xl">
           <article
             className="blog-content max-w-none"
-            dangerouslySetInnerHTML={{ __html: blog.content }}
+            dangerouslySetInnerHTML={{
+              __html: cleanBlogContent || "",
+            }}
           />
         </div>
       </section>
