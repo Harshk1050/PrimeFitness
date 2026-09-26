@@ -46,16 +46,46 @@ export async function generateMetadata({
   const event = (await Event.findOne({ slug, published: true }).lean()) as any;
   if (!event) return {};
 
+  const baseUrl = "https://primefitnessplusllc.com";
+
+  const ogImage = event.bannerImage
+    ? event.bannerImage.startsWith("http")
+      ? event.bannerImage
+      : `${baseUrl}${event.bannerImage.startsWith("/") ? "" : "/"}${event.bannerImage}`
+    : undefined;
+
   return {
     title: event?.title || "Prime Fitness Plus",
     description: event?.metaDescription || event?.subtitle,
     alternates: {
-      canonical: event.canonicalUrl || "https://primefitnessplusllc.com/events",
+      canonical:
+        event.canonicalUrl ||
+        `https://primefitnessplusllc.com/events/${event.slug}`,
     },
     openGraph: {
       title: event.metaTitle || event.title,
       description: event.metaDescription || event.shortDescription,
-      images: event.bannerImage ? [event.bannerImage] : [],
+      url:
+        event.canonicalUrl ||
+        `https://primefitnessplusllc.com/events/${event.slug}`,
+
+      images: ogImage
+        ? [
+            {
+              url: ogImage,
+              width: 1267,
+              height: 580,
+              alt: event.imageAlt || event.title,
+            },
+          ]
+        : [],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: event.metaTitle || event.title,
+      description: event.metaDescription || event.shortDescription,
+      images: ogImage ? [ogImage] : [],
     },
   };
 }

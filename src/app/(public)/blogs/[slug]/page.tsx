@@ -11,17 +11,54 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   await connectDB();
+
   const { slug } = await params;
-  const blog = (await Blog.findOne({ slug, published: true }).lean()) as any;
+
+  const blog = (await Blog.findOne({
+    slug,
+    published: true,
+  }).lean()) as any;
+
   if (!blog) return {};
+
+  const baseUrl = "https://primefitnessplusllc.com";
+
+  const ogImage = blog.featuredImage
+    ? blog.featuredImage.startsWith("http")
+      ? blog.featuredImage
+      : `${baseUrl}${blog.featuredImage.startsWith("/") ? "" : "/"}${blog.featuredImage}`
+    : undefined;
+
   return {
-    title: blog?.metaTitle || blog?.title,
-    description: blog?.metaDescription || blog?.shortDescription,
-    alternates: { canonical: blog.canonicalUrl || undefined },
+    title: blog.metaTitle || blog.title,
+    description: blog.metaDescription || blog.shortDescription,
+
+    alternates: {
+      canonical: blog.canonicalUrl || `${baseUrl}/blogs/${blog.slug}`,
+    },
+
     openGraph: {
       title: blog.metaTitle || blog.title,
       description: blog.metaDescription || blog.shortDescription,
-      images: blog.featuredImage ? [blog.featuredImage] : [],
+      url: `${baseUrl}/blogs/${blog.slug}`,
+      type: "article",
+      images: ogImage
+        ? [
+            {
+              url: ogImage,
+              width: 1267,
+              height: 580,
+              alt: blog.imageAlt || blog.title,
+            },
+          ]
+        : [],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: blog.metaTitle || blog.title,
+      description: blog.metaDescription || blog.shortDescription,
+      images: ogImage ? [ogImage] : [],
     },
   };
 }
